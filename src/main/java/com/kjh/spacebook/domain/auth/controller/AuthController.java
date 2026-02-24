@@ -4,6 +4,7 @@ import com.kjh.spacebook.common.response.ApiResponse;
 import com.kjh.spacebook.domain.auth.dto.request.DeleteAccountRequest;
 import com.kjh.spacebook.domain.auth.dto.request.LoginRequest;
 import com.kjh.spacebook.domain.auth.dto.request.SignupRequest;
+import com.kjh.spacebook.domain.auth.dto.request.TokenReissueRequest;
 import com.kjh.spacebook.domain.auth.dto.response.TokenResponse;
 import com.kjh.spacebook.domain.auth.service.AuthService;
 import jakarta.validation.Valid;
@@ -32,6 +33,12 @@ public class AuthController {
     @PostMapping("/login")
     public ResponseEntity<ApiResponse<TokenResponse>> login(@Valid @RequestBody LoginRequest request) {
         TokenResponse tokens = authService.login(request);
+        return ResponseEntity.status(HttpStatus.OK).body(ApiResponse.success(tokens));
+    }
+
+    @PostMapping("/reissue")
+    public ResponseEntity<ApiResponse<TokenResponse>> reissue(@Valid @RequestBody TokenReissueRequest request) {
+        TokenResponse tokens = authService.reissue(request);
         return ResponseEntity.status(HttpStatus.OK).body(ApiResponse.success(tokens));
     }
 

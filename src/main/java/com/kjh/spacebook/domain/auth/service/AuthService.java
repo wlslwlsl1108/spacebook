@@ -4,6 +4,7 @@ import com.kjh.spacebook.common.exception.BusinessException;
 import com.kjh.spacebook.common.security.jwt.JwtUtil;
 import com.kjh.spacebook.domain.auth.dto.request.LoginRequest;
 import com.kjh.spacebook.domain.auth.dto.request.SignupRequest;
+import com.kjh.spacebook.domain.auth.dto.request.TokenReissueRequest;
 import com.kjh.spacebook.domain.auth.dto.response.TokenResponse;
 import com.kjh.spacebook.domain.auth.entity.RefreshToken;
 import com.kjh.spacebook.domain.auth.exception.AuthErrorCode;
@@ -70,6 +71,44 @@ public class AuthService {
 
         refreshTokenRepository.deleteByUser(user);
         user.withdraw();
+    }
+
+    @Transactional
+    public TokenResponse reissue(TokenReissueRequest request) {
+        // 1. 리프레시 토큰 검증
+        io.jsonwebtoken.Claims claims;
+        try {
+            claims = jwtUtil.validateAndGetClaims(request.refreshToken());
+        } catch (io.jsonwebtoken.ExpiredJwtException e) {
+            throw new BusinessException(AuthErrorCode.EXPIRED_REFRESH_TOKEN);
+        } catch (Exception e) {
+            throw new BusinessException(AuthErrorCode.INVALID_REFRESH_TOKEN);
+        }
+
+        Long userId = Long.valueOf(claims.getSubject());
+
+        // 2. 유저 및 탈퇴 여부 확인
+        User user = userRepository.findById(userId)
+                .orElseThrow(() -> new BusinessException(UserErrorCode.USER_NOT_FOUND));
+
+        if (user.isDeleted()) {
+            throw new BusinessException(AuthErrorCode.ACCOUNT_DELETED);
+        }
+
+        // 3. DB에 저장된 토큰과 일치하는지 확인
+        RefreshToken stored = refreshTokenRepository.findByUser(user)
+                .orElseThrow(() -> new BusinessException(AuthErrorCode.REVOKED_REFRESH_TOKEN));
+
+        if (!stored.getToken().equals(request.refreshToken())) {
+            throw new BusinessException(AuthErrorCode.INVALID_REFRESH_TOKEN);
+        }
+
+        if (stored.isExpired()) {
+            throw new BusinessException(AuthErrorCode.EXPIRED_REFRESH_TOKEN);
+        }
+
+        // 4. 새 토큰 발급
+        return createAndSaveTokens(user);
     }
 
     @Transactional
