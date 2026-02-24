@@ -8,7 +8,7 @@ import java.time.LocalDateTime;
 
 public record SpaceResponse(
         Long id,
-        String name,
+        String spaceName,
         String description,
         String imageUrl,
         SpaceType spaceType,
@@ -23,7 +23,7 @@ public record SpaceResponse(
     public static SpaceResponse from(Space space) {
         return new SpaceResponse(
                 space.getId(),
-                space.getName(),
+                space.getSpaceName(),
                 space.getDescription(),
                 space.getImageUrl(),
                 space.getSpaceType(),

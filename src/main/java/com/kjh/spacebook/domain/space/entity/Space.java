@@ -21,7 +21,7 @@ public class Space {
     private Long id;
 
     @Column(name = "space_name", nullable = false, length = 100)
-    private String name;
+    private String spaceName;
 
     @Column(columnDefinition = "TEXT")
     private String description;
@@ -71,7 +71,7 @@ public class Space {
     }
 
     private Space(
-            String name,
+            String spaceName,
             String description,
             String imageUrl,
             SpaceType spaceType,
@@ -80,7 +80,7 @@ public class Space {
             int capacity,
             User owner
     ) {
-        this.name = name;
+        this.spaceName = spaceName;
         this.description = description;
         this.imageUrl = imageUrl;
         this.spaceType = spaceType;
@@ -92,7 +92,7 @@ public class Space {
     }
 
     public static Space of(
-            String name,
+            String spaceName,
             String description,
             String imageUrl,
             SpaceType spaceType,
@@ -102,7 +102,7 @@ public class Space {
             User owner
     ) {
         return new Space(
-                name,
+                spaceName,
                 description,
                 imageUrl,
                 spaceType,

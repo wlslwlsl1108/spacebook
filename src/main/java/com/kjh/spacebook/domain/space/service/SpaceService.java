@@ -2,13 +2,17 @@ package com.kjh.spacebook.domain.space.service;
 
 import com.kjh.spacebook.common.exception.BusinessException;
 import com.kjh.spacebook.domain.space.dto.request.CreateSpaceRequest;
+import com.kjh.spacebook.domain.space.dto.response.SpaceListResponse;
 import com.kjh.spacebook.domain.space.dto.response.SpaceResponse;
 import com.kjh.spacebook.domain.space.entity.Space;
+import com.kjh.spacebook.domain.space.enums.SpaceStatus;
 import com.kjh.spacebook.domain.space.repository.SpaceRepository;
 import com.kjh.spacebook.domain.user.entity.User;
 import com.kjh.spacebook.domain.user.exception.UserErrorCode;
 import com.kjh.spacebook.domain.user.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -25,7 +29,7 @@ public class SpaceService {
                 .orElseThrow(() -> new BusinessException(UserErrorCode.USER_NOT_FOUND));
 
         Space space = Space.of(
-                request.name(),
+                request.spaceName(),
                 request.description(),
                 request.imageUrl(),
                 request.spaceType(),
@@ -38,5 +42,10 @@ public class SpaceService {
         spaceRepository.save(space);
 
         return SpaceResponse.from(space);
+    }
+
+    public Page<SpaceListResponse> getSpaces(Pageable pageable) {
+        return spaceRepository.findAllByDeletedAtIsNullAndSpaceStatus(pageable, SpaceStatus.OPEN)
+                .map(SpaceListResponse::from);
     }
 }

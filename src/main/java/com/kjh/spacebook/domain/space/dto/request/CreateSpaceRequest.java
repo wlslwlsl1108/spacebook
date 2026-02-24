@@ -7,7 +7,7 @@ import jakarta.validation.constraints.Positive;
 
 public record CreateSpaceRequest(
         @NotBlank(message = "공간 이름은 필수입니다.")
-        String name,
+        String spaceName,
 
         String description,
 
