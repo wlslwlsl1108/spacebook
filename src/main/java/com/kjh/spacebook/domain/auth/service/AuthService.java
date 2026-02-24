@@ -24,8 +24,6 @@ import java.time.LocalDateTime;
 @RequiredArgsConstructor
 @Transactional(readOnly = true)
 public class AuthService {
-    private static final long REFRESH_TOKEN_EXPIRE_DAYS = 7;
-
     private final UserRepository userRepository;
     private final RefreshTokenRepository refreshTokenRepository;
     private final PasswordEncoder passwordEncoder;
@@ -59,6 +57,14 @@ public class AuthService {
         return createAndSaveTokens(user);
     }
 
+    @Transactional
+    public void logout(Long userId) {
+        User user = userRepository.findById(userId)
+                .orElseThrow(() -> new BusinessException(UserErrorCode.USER_NOT_FOUND));
+
+        refreshTokenRepository.deleteByUser(user);
+    }
+
     private TokenResponse createAndSaveTokens(User user) {
         String accessToken = jwtUtil.createAccessToken(user.getId(), user.getRole().name());
         String refreshToken = jwtUtil.createRefreshToken(user.getId());
@@ -67,7 +73,7 @@ public class AuthService {
         refreshTokenRepository.save(RefreshToken.of(
                 user,
                 refreshToken,
-                LocalDateTime.now().plusDays(REFRESH_TOKEN_EXPIRE_DAYS)
+                jwtUtil.calculateRefreshExpiry()
         ));
 
         return new TokenResponse(accessToken, refreshToken);
