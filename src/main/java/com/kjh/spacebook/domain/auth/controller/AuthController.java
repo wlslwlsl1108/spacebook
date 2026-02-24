@@ -1,6 +1,7 @@
 package com.kjh.spacebook.domain.auth.controller;
 
 import com.kjh.spacebook.common.response.ApiResponse;
+import com.kjh.spacebook.domain.auth.dto.request.LoginRequest;
 import com.kjh.spacebook.domain.auth.dto.request.SignupRequest;
 import com.kjh.spacebook.domain.auth.dto.response.TokenResponse;
 import com.kjh.spacebook.domain.auth.service.AuthService;
@@ -23,5 +24,11 @@ public class AuthController {
     public ResponseEntity<ApiResponse<TokenResponse>> signup(@Valid @RequestBody SignupRequest request) {
         TokenResponse tokens = authService.signup(request);
         return ResponseEntity.status(HttpStatus.CREATED).body(ApiResponse.success(tokens));
+    }
+
+    @PostMapping("/login")
+    public ResponseEntity<ApiResponse<TokenResponse>> login(@Valid @RequestBody LoginRequest request) {
+        TokenResponse tokens = authService.login(request);
+        return ResponseEntity.status(HttpStatus.OK).body(ApiResponse.success(tokens));
     }
 }
