@@ -1,6 +1,7 @@
 package com.kjh.spacebook.domain.auth.controller;
 
 import com.kjh.spacebook.common.response.ApiResponse;
+import com.kjh.spacebook.domain.auth.dto.request.DeleteAccountRequest;
 import com.kjh.spacebook.domain.auth.dto.request.LoginRequest;
 import com.kjh.spacebook.domain.auth.dto.request.SignupRequest;
 import com.kjh.spacebook.domain.auth.dto.response.TokenResponse;
@@ -10,6 +11,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -36,6 +38,15 @@ public class AuthController {
     @PostMapping("/logout")
     public ResponseEntity<ApiResponse<Void>> logout(@AuthenticationPrincipal Long userId) {
         authService.logout(userId);
+        return ResponseEntity.status(HttpStatus.OK).body(ApiResponse.success(null));
+    }
+
+    @DeleteMapping("/withdraw")
+    public ResponseEntity<ApiResponse<Void>> deleteAccount(
+            @AuthenticationPrincipal Long userId,
+            @Valid @RequestBody DeleteAccountRequest request
+    ) {
+        authService.deleteAccount(userId, request.password());
         return ResponseEntity.status(HttpStatus.OK).body(ApiResponse.success(null));
     }
 }

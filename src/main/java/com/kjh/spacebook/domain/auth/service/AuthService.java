@@ -52,9 +52,24 @@ public class AuthService {
         User user = userRepository.findByEmail(request.email())
                 .orElseThrow(() -> new BusinessException(AuthErrorCode.INVALID_CREDENTIALS));
 
+        if (user.isDeleted()) {
+            throw new BusinessException(AuthErrorCode.ACCOUNT_DELETED);
+        }
+
         user.validatePassword(request.password(), passwordEncoder);
 
         return createAndSaveTokens(user);
+    }
+
+    @Transactional
+    public void deleteAccount(Long userId, String rawPassword) {
+        User user = userRepository.findById(userId)
+                .orElseThrow(() -> new BusinessException(UserErrorCode.USER_NOT_FOUND));
+
+        user.validatePassword(rawPassword, passwordEncoder);
+
+        refreshTokenRepository.deleteByUser(user);
+        user.withdraw();
     }
 
     @Transactional

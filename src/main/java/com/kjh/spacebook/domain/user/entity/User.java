@@ -40,6 +40,9 @@ public class User {
     @Column(name = "created_at", nullable = false, updatable = false)
     private LocalDateTime createdAt;
 
+    @Column(name = "deleted_at")
+    private LocalDateTime deletedAt;
+
     @PrePersist
     protected void onCreate() {
         this.createdAt = LocalDateTime.now();
@@ -71,5 +74,14 @@ public class User {
         if (!passwordEncoder.matches(rawPassword, this.password)) {
             throw new BusinessException(AuthErrorCode.INVALID_PASSWORD);
         }
+    }
+
+    public void withdraw() {
+        this.deletedAt = LocalDateTime.now();
+        this.email = this.email + "_deleted_" + this.id;
+    }
+
+    public boolean isDeleted() {
+        return this.deletedAt != null;
     }
 }
