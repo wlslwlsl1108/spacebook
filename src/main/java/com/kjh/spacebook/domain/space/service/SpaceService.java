@@ -6,6 +6,7 @@ import com.kjh.spacebook.domain.space.dto.response.SpaceListResponse;
 import com.kjh.spacebook.domain.space.dto.response.SpaceResponse;
 import com.kjh.spacebook.domain.space.entity.Space;
 import com.kjh.spacebook.domain.space.enums.SpaceStatus;
+import com.kjh.spacebook.domain.space.exception.SpaceErrorCode;
 import com.kjh.spacebook.domain.space.repository.SpaceRepository;
 import com.kjh.spacebook.domain.user.entity.User;
 import com.kjh.spacebook.domain.user.exception.UserErrorCode;
@@ -45,7 +46,14 @@ public class SpaceService {
     }
 
     public Page<SpaceListResponse> getSpaces(Pageable pageable) {
-        return spaceRepository.findAllByDeletedAtIsNullAndSpaceStatus(pageable, SpaceStatus.OPEN)
+        return spaceRepository.findAllByDeletedAtIsNullAndSpaceStatus(SpaceStatus.OPEN, pageable)
                 .map(SpaceListResponse::from);
+    }
+
+    public SpaceResponse getSpace(Long spaceId) {
+        Space space = spaceRepository.findByIdAndDeletedAtIsNullAndSpaceStatus(spaceId, SpaceStatus.OPEN)
+                .orElseThrow(() -> new BusinessException(SpaceErrorCode.SPACE_NOT_FOUND));
+
+        return SpaceResponse.from(space);
     }
 }

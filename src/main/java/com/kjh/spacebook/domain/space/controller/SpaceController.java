@@ -15,6 +15,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.web.PageableDefault;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -42,5 +43,11 @@ public class SpaceController {
     ) {
         Page<SpaceListResponse> responses = spaceService.getSpaces(pageable);
         return ResponseEntity.status(HttpStatus.OK).body(ApiResponse.success(responses));
+    }
+
+    @GetMapping("/{spaceId}")
+    public ResponseEntity<ApiResponse<SpaceResponse>> getSpace(@PathVariable Long spaceId) {
+        SpaceResponse response = spaceService.getSpace(spaceId);
+        return ResponseEntity.status(HttpStatus.OK).body(ApiResponse.success(response));
     }
 }
