@@ -1,11 +1,13 @@
 package com.kjh.spacebook.domain.user.entity;
 
+import com.kjh.spacebook.common.exception.BusinessException;
+import com.kjh.spacebook.domain.auth.exception.AuthErrorCode;
 import com.kjh.spacebook.domain.user.enums.Role;
 import jakarta.persistence.*;
 import lombok.AccessLevel;
-import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import org.springframework.security.crypto.password.PasswordEncoder;
 
 import java.time.LocalDateTime;
 
@@ -43,12 +45,31 @@ public class User {
         this.createdAt = LocalDateTime.now();
     }
 
-    @Builder
-    public User(String username, String email, String password, String phoneNumber) {
+    private User(
+            String username,
+            String email,
+            String password,
+            String phoneNumber
+    ) {
         this.role = Role.USER;
         this.username = username;
         this.email = email;
         this.password = password;
         this.phoneNumber = phoneNumber;
+    }
+
+    public static User of(
+            String username,
+            String email,
+            String encodedPassword,
+            String phoneNumber
+    ) {
+        return new User(username, email, encodedPassword, phoneNumber);
+    }
+
+    public void validatePassword(String rawPassword, PasswordEncoder passwordEncoder) {
+        if (!passwordEncoder.matches(rawPassword, this.password)) {
+            throw new BusinessException(AuthErrorCode.INVALID_PASSWORD);
+        }
     }
 }
