@@ -6,6 +6,7 @@ import type {
   SpaceSearchParams,
   CreateReservationRequest,
   Reservation,
+  ReservationListItem,
   DeleteAccountRequest,
 } from "@/types";
 
@@ -93,7 +94,7 @@ export async function createReservation(request: CreateReservationRequest) {
 
 // 내 예약 목록 조회 (로그인 필요)
 export async function getMyReservations(page: number = 0) {
-  return api<PageResponse<Reservation>>(`/reservations/my?page=${page}`);
+  return api<PageResponse<ReservationListItem>>(`/reservations/my?page=${page}`);
 }
 
 // 회원 탈퇴 (로그인 필요)
