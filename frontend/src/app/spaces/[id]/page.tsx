@@ -44,7 +44,7 @@ export default function SpaceDetailPage() {
       router.push("/login");
       return;
     }
-    router.push(`/reservations/new?spaceId=${id}`);
+    router.push(`/spaces/${id}/reserve`);
   };
 
   if (isLoading) {
