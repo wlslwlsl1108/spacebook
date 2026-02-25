@@ -1,5 +1,6 @@
 import type {
   ApiResponse,
+  Space,
   SpaceListItem,
   PageResponse,
   SpaceSearchParams,
@@ -72,6 +73,11 @@ export async function getSpaces(params: SpaceSearchParams = {}) {
 
   const qs = query.toString();
   return api<PageResponse<SpaceListItem>>(`/spaces${qs ? `?${qs}` : ""}`);
+}
+
+// 공간 상세 조회
+export async function getSpaceDetail(id: number) {
+  return api<Space>(`/spaces/${id}`);
 }
 
 // AI 추천 (로그인 필요)
