@@ -76,4 +76,12 @@ public class SpaceService {
 
         return SpaceResponse.from(space);
     }
+
+    @Transactional
+    public void deleteSpace(Long spaceId) {
+        Space space = spaceRepository.findByIdAndDeletedAtIsNull(spaceId)
+                .orElseThrow(() -> new BusinessException(SpaceErrorCode.SPACE_NOT_FOUND));
+
+        space.delete();
+    }
 }

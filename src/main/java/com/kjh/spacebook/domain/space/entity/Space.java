@@ -113,6 +113,15 @@ public class Space {
         );
     }
 
+    public void delete() {
+        this.deletedAt = LocalDateTime.now();
+        this.spaceStatus = SpaceStatus.CLOSED;
+    }
+
+    public boolean isDeleted() {
+        return this.deletedAt != null;
+    }
+
     public void update(
             String spaceName,
             String description,
