@@ -18,6 +18,10 @@ public enum ReservationErrorCode implements ErrorCode {
     RESERVATION_EXCEED_CAPACITY(HttpStatus.BAD_REQUEST, "예약 인원이 공간 최대 수용 인원을 초과합니다."),
     RESERVATION_TIME_CONFLICT(HttpStatus.CONFLICT, "해당 시간대에 이미 예약이 존재합니다."),
 
+    // 취소
+    RESERVATION_ALREADY_CANCELLED(HttpStatus.BAD_REQUEST, "이미 취소된 예약입니다."),
+    RESERVATION_CANCEL_TOO_LATE(HttpStatus.BAD_REQUEST, "예약일 하루 전까지만 취소할 수 있습니다."),
+
     // 권한
     RESERVATION_NOT_OWNER(HttpStatus.FORBIDDEN, "본인의 예약만 접근할 수 있습니다.");
 

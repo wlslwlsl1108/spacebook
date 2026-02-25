@@ -97,4 +97,8 @@ public class Reservation {
                 peopleCount, totalPrice, purpose
         );
     }
+
+    public void cancel() {
+        this.status = ReservationStatus.CANCELLED;
+    }
 }

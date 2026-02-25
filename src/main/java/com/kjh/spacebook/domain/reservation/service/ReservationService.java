@@ -107,4 +107,25 @@ public class ReservationService {
 
         return ReservationResponse.from(reservation);
     }
+
+    @Transactional
+    public void cancelReservation(Long userId, Long reservationId) {
+        Reservation reservation = reservationRepository.findById(reservationId)
+                .orElseThrow(() -> new BusinessException(ReservationErrorCode.RESERVATION_NOT_FOUND));
+
+        if (!reservation.getUser().getId().equals(userId)) {
+            throw new BusinessException(ReservationErrorCode.RESERVATION_NOT_OWNER);
+        }
+
+        if (reservation.getStatus() == ReservationStatus.CANCELLED) {
+            throw new BusinessException(ReservationErrorCode.RESERVATION_ALREADY_CANCELLED);
+        }
+
+        LocalDateTime deadline = reservation.getStartTime().minusDays(1);
+        if (LocalDateTime.now().isAfter(deadline)) {
+            throw new BusinessException(ReservationErrorCode.RESERVATION_CANCEL_TOO_LATE);
+        }
+
+        reservation.cancel();
+    }
 }
