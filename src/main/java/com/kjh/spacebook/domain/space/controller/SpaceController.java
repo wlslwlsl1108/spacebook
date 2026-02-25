@@ -30,6 +30,8 @@ import org.springframework.web.bind.annotation.RestController;
 public class SpaceController {
     private final SpaceService spaceService;
 
+    // 관리자
+
     @PostMapping
     @PreAuthorize("hasRole('ADMIN')")
     public ResponseEntity<ApiResponse<SpaceResponse>> createSpace(
@@ -38,20 +40,6 @@ public class SpaceController {
     ) {
         SpaceResponse response = spaceService.createSpace(userId, request);
         return ResponseEntity.status(HttpStatus.CREATED).body(ApiResponse.success(response));
-    }
-
-    @GetMapping
-    public ResponseEntity<ApiResponse<Page<SpaceListResponse>>> getSpaces(
-            @PageableDefault(size = 10) Pageable pageable
-    ) {
-        Page<SpaceListResponse> responses = spaceService.getSpaces(pageable);
-        return ResponseEntity.status(HttpStatus.OK).body(ApiResponse.success(responses));
-    }
-
-    @GetMapping("/{spaceId}")
-    public ResponseEntity<ApiResponse<SpaceResponse>> getSpace(@PathVariable Long spaceId) {
-        SpaceResponse response = spaceService.getSpace(spaceId);
-        return ResponseEntity.status(HttpStatus.OK).body(ApiResponse.success(response));
     }
 
     @PatchMapping("/{spaceId}")
@@ -71,12 +59,30 @@ public class SpaceController {
         return ResponseEntity.status(HttpStatus.OK).body(ApiResponse.success(null));
     }
 
+    // 인증
+
     @GetMapping("/me")
     public ResponseEntity<ApiResponse<Page<SpaceListResponse>>> getMySpaces(
             @AuthenticationPrincipal Long userId,
-            @PageableDefault(size = 4) Pageable pageable
+            @PageableDefault(size = 10) Pageable pageable
     ) {
         Page<SpaceListResponse> responses = spaceService.getMySpaces(userId, pageable);
         return ResponseEntity.status(HttpStatus.OK).body(ApiResponse.success(responses));
+    }
+
+    // 공개
+
+    @GetMapping
+    public ResponseEntity<ApiResponse<Page<SpaceListResponse>>> getSpaces(
+            @PageableDefault(size = 10) Pageable pageable
+    ) {
+        Page<SpaceListResponse> responses = spaceService.getSpaces(pageable);
+        return ResponseEntity.status(HttpStatus.OK).body(ApiResponse.success(responses));
+    }
+
+    @GetMapping("/{spaceId}")
+    public ResponseEntity<ApiResponse<SpaceResponse>> getSpace(@PathVariable Long spaceId) {
+        SpaceResponse response = spaceService.getSpace(spaceId);
+        return ResponseEntity.status(HttpStatus.OK).body(ApiResponse.success(response));
     }
 }

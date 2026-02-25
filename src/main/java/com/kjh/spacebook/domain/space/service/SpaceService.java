@@ -46,18 +46,6 @@ public class SpaceService {
         return SpaceResponse.from(space);
     }
 
-    public Page<SpaceListResponse> getSpaces(Pageable pageable) {
-        return spaceRepository.findAllByDeletedAtIsNullAndSpaceStatus(SpaceStatus.OPEN, pageable)
-                .map(SpaceListResponse::from);
-    }
-
-    public SpaceResponse getSpace(Long spaceId) {
-        Space space = spaceRepository.findByIdAndDeletedAtIsNullAndSpaceStatus(spaceId, SpaceStatus.OPEN)
-                .orElseThrow(() -> new BusinessException(SpaceErrorCode.SPACE_NOT_FOUND));
-
-        return SpaceResponse.from(space);
-    }
-
     @Transactional
     public SpaceResponse updateSpace(Long spaceId, UpdateSpaceRequest request) {
         Space space = spaceRepository.findByIdAndDeletedAtIsNull(spaceId)
@@ -91,5 +79,17 @@ public class SpaceService {
 
         return spaceRepository.findAllByOwnerAndDeletedAtIsNull(owner, pageable)
                 .map(SpaceListResponse::from);
+    }
+
+    public Page<SpaceListResponse> getSpaces(Pageable pageable) {
+        return spaceRepository.findAllByDeletedAtIsNullAndSpaceStatus(SpaceStatus.OPEN, pageable)
+                .map(SpaceListResponse::from);
+    }
+
+    public SpaceResponse getSpace(Long spaceId) {
+        Space space = spaceRepository.findByIdAndDeletedAtIsNullAndSpaceStatus(spaceId, SpaceStatus.OPEN)
+                .orElseThrow(() -> new BusinessException(SpaceErrorCode.SPACE_NOT_FOUND));
+
+        return SpaceResponse.from(space);
     }
 }
