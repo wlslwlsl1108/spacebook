@@ -1,4 +1,9 @@
-import type { ApiResponse } from "@/types";
+import type {
+  ApiResponse,
+  SpaceListItem,
+  PageResponse,
+  SpaceSearchParams,
+} from "@/types";
 
 const BASE_URL = "http://localhost:8080/api/v1";
 
@@ -51,4 +56,28 @@ export async function api<T>(
   }
 
   return body;
+}
+
+// 공간 목록 조회 (검색/필터/정렬/페이지네이션)
+export async function getSpaces(params: SpaceSearchParams = {}) {
+  const query = new URLSearchParams();
+
+  if (params.location) query.set("location", params.location);
+  if (params.spaceType) query.set("spaceType", params.spaceType);
+  if (params.minPrice !== undefined) query.set("minPrice", String(params.minPrice));
+  if (params.maxPrice !== undefined) query.set("maxPrice", String(params.maxPrice));
+  if (params.page !== undefined) query.set("page", String(params.page));
+  if (params.size !== undefined) query.set("size", String(params.size));
+  if (params.sort) query.set("sort", params.sort);
+
+  const qs = query.toString();
+  return api<PageResponse<SpaceListItem>>(`/spaces${qs ? `?${qs}` : ""}`);
+}
+
+// AI 추천 (로그인 필요)
+export async function getRecommendations(queryText: string) {
+  return api<SpaceListItem[]>("/recommendations", {
+    method: "POST",
+    body: JSON.stringify({ query: queryText }),
+  });
 }

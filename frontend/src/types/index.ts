@@ -34,17 +34,53 @@ export interface TokenResponse {
   refreshToken: string;
 }
 
-// 공간
+// 공간 목록 (백엔드 SpaceListResponse 대응)
+export interface SpaceListItem {
+  id: number;
+  spaceName: string;
+  spaceType: "STUDY" | "PARTY" | "MEETING";
+  capacity: number;
+  location: string;
+  pricePerHour: number;
+  imageUrl: string;
+}
+
+// 공간 상세 (백엔드 SpaceResponse 대응)
 export interface Space {
   id: number;
   spaceName: string;
+  description: string;
   imageUrl: string;
   spaceType: "STUDY" | "PARTY" | "MEETING";
   pricePerHour: number;
   location: string;
   capacity: number;
   spaceStatus: "OPEN" | "CLOSED";
+  ownerId: number;
   createdAt: string;
+  updatedAt: string;
+}
+
+// Spring Page 응답
+export interface PageResponse<T> {
+  content: T[];
+  totalElements: number;
+  totalPages: number;
+  number: number;
+  size: number;
+  first: boolean;
+  last: boolean;
+}
+
+// 공간 검색 파라미터
+export interface SpaceSearchParams {
+  location?: string;
+  spaceType?: "STUDY" | "PARTY" | "MEETING";
+  minPrice?: number;
+  maxPrice?: number;
+  page?: number;
+  size?: number;
+  sort?: string;
 }
 
 // 예약
