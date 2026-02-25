@@ -9,7 +9,7 @@ import {
   type ReactNode,
 } from "react";
 import type { User, LoginRequest, SignupRequest, TokenResponse } from "@/types";
-import { api, setTokens, clearTokens, getAccessToken } from "@/lib/api";
+import { api, setTokens, clearTokens, getAccessToken, withdraw as withdrawApi } from "@/lib/api";
 
 // Context에 담길 인증 상태와 함수들
 interface AuthContextType {
@@ -18,6 +18,7 @@ interface AuthContextType {
   login: (request: LoginRequest) => Promise<void>;
   signup: (request: SignupRequest) => Promise<void>;
   logout: () => Promise<void>;
+  withdraw: (password: string) => Promise<void>;
 }
 
 const AuthContext = createContext<AuthContextType | null>(null);
@@ -77,8 +78,14 @@ export function AuthProvider({ children }: { children: ReactNode }) {
     }
   };
 
+  const withdraw = async (password: string) => {
+    await withdrawApi(password);
+    clearTokens();
+    setUser(null);
+  };
+
   return (
-    <AuthContext.Provider value={{ user, isLoading, login, signup, logout }}>
+    <AuthContext.Provider value={{ user, isLoading, login, signup, logout, withdraw }}>
       {children}
     </AuthContext.Provider>
   );
