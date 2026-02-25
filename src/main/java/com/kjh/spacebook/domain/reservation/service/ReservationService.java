@@ -96,4 +96,15 @@ public class ReservationService {
         return reservationRepository.findAllByUser(user, pageable)
                 .map(ReservationListResponse::from);
     }
+
+    public ReservationResponse getReservation(Long userId, Long reservationId) {
+        Reservation reservation = reservationRepository.findById(reservationId)
+                .orElseThrow(() -> new BusinessException(ReservationErrorCode.RESERVATION_NOT_FOUND));
+
+        if (!reservation.getUser().getId().equals(userId)) {
+            throw new BusinessException(ReservationErrorCode.RESERVATION_NOT_OWNER);
+        }
+
+        return ReservationResponse.from(reservation);
+    }
 }
