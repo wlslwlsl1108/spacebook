@@ -70,4 +70,13 @@ public class SpaceController {
         spaceService.deleteSpace(spaceId);
         return ResponseEntity.status(HttpStatus.OK).body(ApiResponse.success(null));
     }
+
+    @GetMapping("/me")
+    public ResponseEntity<ApiResponse<Page<SpaceListResponse>>> getMySpaces(
+            @AuthenticationPrincipal Long userId,
+            @PageableDefault(size = 4) Pageable pageable
+    ) {
+        Page<SpaceListResponse> responses = spaceService.getMySpaces(userId, pageable);
+        return ResponseEntity.status(HttpStatus.OK).body(ApiResponse.success(responses));
+    }
 }

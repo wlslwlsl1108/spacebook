@@ -84,4 +84,12 @@ public class SpaceService {
 
         space.delete();
     }
+
+    public Page<SpaceListResponse> getMySpaces(Long userId, Pageable pageable) {
+        User owner = userRepository.findById(userId)
+                .orElseThrow(() -> new BusinessException(UserErrorCode.USER_NOT_FOUND));
+
+        return spaceRepository.findAllByOwnerAndDeletedAtIsNull(owner, pageable)
+                .map(SpaceListResponse::from);
+    }
 }

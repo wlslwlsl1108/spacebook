@@ -2,6 +2,7 @@ package com.kjh.spacebook.domain.space.repository;
 
 import com.kjh.spacebook.domain.space.entity.Space;
 import com.kjh.spacebook.domain.space.enums.SpaceStatus;
+import com.kjh.spacebook.domain.user.entity.User;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
@@ -15,4 +16,6 @@ public interface SpaceRepository extends JpaRepository<Space, Long> {
     Optional<Space> findByIdAndDeletedAtIsNull(Long id);
 
     Optional<Space> findByIdAndDeletedAtIsNullAndSpaceStatus(Long id, SpaceStatus spaceStatus);
+
+    Page<Space> findAllByOwnerAndDeletedAtIsNull(User owner, Pageable pageable);
 }
