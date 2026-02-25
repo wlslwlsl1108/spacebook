@@ -7,6 +7,7 @@ import com.kjh.spacebook.domain.space.dto.response.SpaceListResponse;
 import com.kjh.spacebook.domain.space.dto.response.SpaceResponse;
 import com.kjh.spacebook.domain.space.entity.Space;
 import com.kjh.spacebook.domain.space.enums.SpaceStatus;
+import com.kjh.spacebook.domain.space.enums.SpaceType;
 import com.kjh.spacebook.domain.space.exception.SpaceErrorCode;
 import com.kjh.spacebook.domain.space.repository.SpaceRepository;
 import com.kjh.spacebook.domain.user.entity.User;
@@ -81,8 +82,18 @@ public class SpaceService {
                 .map(SpaceListResponse::from);
     }
 
-    public Page<SpaceListResponse> getSpaces(Pageable pageable) {
-        return spaceRepository.findAllByDeletedAtIsNullAndSpaceStatus(SpaceStatus.OPEN, pageable)
+    public Page<SpaceListResponse> getSpaces(
+            String location,
+            SpaceType spaceType,
+            Integer minPrice,
+            Integer maxPrice,
+            Pageable pageable
+    ) {
+        if (minPrice != null && maxPrice != null && minPrice > maxPrice) {
+            throw new BusinessException(SpaceErrorCode.INVALID_PRICE_RANGE);
+        }
+
+        return spaceRepository.searchSpaces(location, spaceType, minPrice, maxPrice, pageable)
                 .map(SpaceListResponse::from);
     }
 

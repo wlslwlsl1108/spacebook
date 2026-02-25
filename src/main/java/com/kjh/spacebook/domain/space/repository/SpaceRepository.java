@@ -36,4 +36,21 @@ public interface SpaceRepository extends JpaRepository<Space, Long> {
             @Param("capacity") Integer capacity,
             @Param("spaceType") SpaceType spaceType
     );
+
+    @Query("""
+            SELECT s FROM Space s
+            WHERE s.deletedAt IS NULL
+            AND s.spaceStatus = com.kjh.spacebook.domain.space.enums.SpaceStatus.OPEN
+            AND (:location IS NULL OR s.location LIKE CONCAT('%', :location, '%'))
+            AND (:spaceType IS NULL OR s.spaceType = :spaceType)
+            AND (:minPrice IS NULL OR s.pricePerHour >= :minPrice)
+            AND (:maxPrice IS NULL OR s.pricePerHour <= :maxPrice)
+            """)
+    Page<Space> searchSpaces(
+            @Param("location") String location,
+            @Param("spaceType") SpaceType spaceType,
+            @Param("minPrice") Integer minPrice,
+            @Param("maxPrice") Integer maxPrice,
+            Pageable pageable
+    );
 }
