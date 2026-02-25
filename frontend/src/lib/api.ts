@@ -4,6 +4,8 @@ import type {
   SpaceListItem,
   PageResponse,
   SpaceSearchParams,
+  CreateReservationRequest,
+  Reservation,
 } from "@/types";
 
 const BASE_URL = "http://localhost:8080/api/v1";
@@ -78,6 +80,14 @@ export async function getSpaces(params: SpaceSearchParams = {}) {
 // 공간 상세 조회
 export async function getSpaceDetail(id: number) {
   return api<Space>(`/spaces/${id}`);
+}
+
+// 예약 생성 (로그인 필요)
+export async function createReservation(request: CreateReservationRequest) {
+  return api<Reservation>("/reservations", {
+    method: "POST",
+    body: JSON.stringify(request),
+  });
 }
 
 // AI 추천 (로그인 필요)

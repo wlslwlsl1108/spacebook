@@ -83,15 +83,27 @@ export interface SpaceSearchParams {
   sort?: string;
 }
 
-// 예약
-export interface Reservation {
-  id: number;
-  userId: number;
+// 예약 생성 요청 (백엔드 CreateReservationRequest 대응)
+export interface CreateReservationRequest {
   spaceId: number;
   startTime: string;
   endTime: string;
+  peopleCount: number;
+  purpose?: string;
+}
+
+// 예약 응답 (백엔드 ReservationResponse 대응)
+export interface Reservation {
+  id: number;
+  spaceId: number;
+  spaceName: string;
+  userId: number;
+  startTime: string;
+  endTime: string;
+  peopleCount: number;
   totalPrice: number;
-  reservationStatus: "CONFIRMED" | "CANCELLED";
+  purpose: string;
+  status: "CONFIRMED" | "CANCELLED";
   createdAt: string;
 }
 
