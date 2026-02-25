@@ -7,7 +7,6 @@ import { Button } from "@/components/ui/button";
 
 const navItems = [
   { href: "/", label: "홈" },
-  { href: "/spaces", label: "공간 목록" },
 ];
 
 // 로그인 시에만 보이는 메뉴
