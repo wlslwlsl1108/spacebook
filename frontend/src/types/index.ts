@@ -92,7 +92,17 @@ export interface CreateReservationRequest {
   purpose?: string;
 }
 
-// 예약 응답 (백엔드 ReservationResponse 대응)
+// 예약 목록 응답 (백엔드 ReservationListResponse 대응)
+export interface ReservationListItem {
+  id: number;
+  spaceId: number;
+  spaceName: string;
+  startTime: string;
+  endTime: string;
+  status: "CONFIRMED" | "CANCELLED";
+}
+
+// 예약 상세 응답 (백엔드 ReservationResponse 대응)
 export interface Reservation {
   id: number;
   spaceId: number;
@@ -105,6 +115,11 @@ export interface Reservation {
   purpose: string;
   status: "CONFIRMED" | "CANCELLED";
   createdAt: string;
+}
+
+// 회원 탈퇴 요청 (백엔드 DeleteAccountRequest 대응)
+export interface DeleteAccountRequest {
+  password: string;
 }
 
 // AI 추천
