@@ -6,6 +6,7 @@ import type {
   SpaceSearchParams,
   CreateReservationRequest,
   Reservation,
+  DeleteAccountRequest,
 } from "@/types";
 
 const BASE_URL = "http://localhost:8080/api/v1";
@@ -87,6 +88,19 @@ export async function createReservation(request: CreateReservationRequest) {
   return api<Reservation>("/reservations", {
     method: "POST",
     body: JSON.stringify(request),
+  });
+}
+
+// 내 예약 목록 조회 (로그인 필요)
+export async function getMyReservations(page: number = 0) {
+  return api<PageResponse<Reservation>>(`/reservations/my?page=${page}`);
+}
+
+// 회원 탈퇴 (로그인 필요)
+export async function withdraw(password: string) {
+  return api<void>("/auth/withdraw", {
+    method: "DELETE",
+    body: JSON.stringify({ password } satisfies DeleteAccountRequest),
   });
 }
 

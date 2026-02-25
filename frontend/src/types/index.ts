@@ -107,6 +107,11 @@ export interface Reservation {
   createdAt: string;
 }
 
+// 회원 탈퇴 요청 (백엔드 DeleteAccountRequest 대응)
+export interface DeleteAccountRequest {
+  password: string;
+}
+
 // AI 추천
 export interface RecommendationRequest {
   query: string;
