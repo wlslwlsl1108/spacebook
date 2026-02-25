@@ -23,7 +23,7 @@ public class Space {
     @Column(name = "space_name", nullable = false, length = 100)
     private String spaceName;
 
-    @Column(columnDefinition = "TEXT")
+    @Column(columnDefinition = "TEXT", nullable = false)
     private String description;
 
     @Column(name = "image_url", nullable = false, length = 255)
@@ -113,4 +113,23 @@ public class Space {
         );
     }
 
+    public void update(
+            String spaceName,
+            String description,
+            String imageUrl,
+            SpaceType spaceType,
+            Integer pricePerHour,
+            String location,
+            Integer capacity,
+            SpaceStatus spaceStatus
+    ) {
+        if (spaceName != null) this.spaceName = spaceName;
+        if (description != null) this.description = description;
+        if (imageUrl != null) this.imageUrl = imageUrl;
+        if (spaceType != null) this.spaceType = spaceType;
+        if (pricePerHour != null) this.pricePerHour = pricePerHour;
+        if (location != null) this.location = location;
+        if (capacity != null) this.capacity = capacity;
+        if (spaceStatus != null) this.spaceStatus = spaceStatus;
+    }
 }

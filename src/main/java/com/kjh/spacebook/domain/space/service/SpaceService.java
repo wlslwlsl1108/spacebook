@@ -2,6 +2,7 @@ package com.kjh.spacebook.domain.space.service;
 
 import com.kjh.spacebook.common.exception.BusinessException;
 import com.kjh.spacebook.domain.space.dto.request.CreateSpaceRequest;
+import com.kjh.spacebook.domain.space.dto.request.UpdateSpaceRequest;
 import com.kjh.spacebook.domain.space.dto.response.SpaceListResponse;
 import com.kjh.spacebook.domain.space.dto.response.SpaceResponse;
 import com.kjh.spacebook.domain.space.entity.Space;
@@ -53,6 +54,25 @@ public class SpaceService {
     public SpaceResponse getSpace(Long spaceId) {
         Space space = spaceRepository.findByIdAndDeletedAtIsNullAndSpaceStatus(spaceId, SpaceStatus.OPEN)
                 .orElseThrow(() -> new BusinessException(SpaceErrorCode.SPACE_NOT_FOUND));
+
+        return SpaceResponse.from(space);
+    }
+
+    @Transactional
+    public SpaceResponse updateSpace(Long spaceId, UpdateSpaceRequest request) {
+        Space space = spaceRepository.findByIdAndDeletedAtIsNull(spaceId)
+                .orElseThrow(() -> new BusinessException(SpaceErrorCode.SPACE_NOT_FOUND));
+
+        space.update(
+                request.spaceName(),
+                request.description(),
+                request.imageUrl(),
+                request.spaceType(),
+                request.pricePerHour(),
+                request.location(),
+                request.capacity(),
+                request.spaceStatus()
+        );
 
         return SpaceResponse.from(space);
     }

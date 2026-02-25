@@ -2,6 +2,7 @@ package com.kjh.spacebook.domain.space.controller;
 
 import com.kjh.spacebook.common.response.ApiResponse;
 import com.kjh.spacebook.domain.space.dto.request.CreateSpaceRequest;
+import com.kjh.spacebook.domain.space.dto.request.UpdateSpaceRequest;
 import com.kjh.spacebook.domain.space.dto.response.SpaceListResponse;
 import com.kjh.spacebook.domain.space.dto.response.SpaceResponse;
 import com.kjh.spacebook.domain.space.service.SpaceService;
@@ -17,6 +18,7 @@ import org.springframework.data.web.PageableDefault;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PatchMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -48,6 +50,16 @@ public class SpaceController {
     @GetMapping("/{spaceId}")
     public ResponseEntity<ApiResponse<SpaceResponse>> getSpace(@PathVariable Long spaceId) {
         SpaceResponse response = spaceService.getSpace(spaceId);
+        return ResponseEntity.status(HttpStatus.OK).body(ApiResponse.success(response));
+    }
+
+    @PatchMapping("/{spaceId}")
+    @PreAuthorize("hasRole('ADMIN')")
+    public ResponseEntity<ApiResponse<SpaceResponse>> updateSpace(
+            @PathVariable Long spaceId,
+            @Valid @RequestBody UpdateSpaceRequest request
+    ) {
+        SpaceResponse response = spaceService.updateSpace(spaceId, request);
         return ResponseEntity.status(HttpStatus.OK).body(ApiResponse.success(response));
     }
 }

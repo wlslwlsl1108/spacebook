@@ -12,5 +12,7 @@ public interface SpaceRepository extends JpaRepository<Space, Long> {
 
     Page<Space> findAllByDeletedAtIsNullAndSpaceStatus(SpaceStatus spaceStatus, Pageable pageable);
 
+    Optional<Space> findByIdAndDeletedAtIsNull(Long id);
+
     Optional<Space> findByIdAndDeletedAtIsNullAndSpaceStatus(Long id, SpaceStatus spaceStatus);
 }
