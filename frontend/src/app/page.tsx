@@ -49,6 +49,7 @@ export default function HomePage() {
   const [aiResults, setAiResults] = useState<SpaceListItem[]>([]);
   const [aiLoading, setAiLoading] = useState(false);
   const [aiError, setAiError] = useState("");
+  const [aiSearched, setAiSearched] = useState(false);
 
   // 공간 목록 조회
   const fetchSpaces = useCallback(
@@ -100,9 +101,11 @@ export default function HomePage() {
     setAiLoading(true);
     setAiError("");
     setAiResults([]);
+    setAiSearched(false);
     try {
       const res = await getRecommendations(aiQuery.trim());
       setAiResults(res.data);
+      setAiSearched(true);
     } catch (err) {
       setAiError(err instanceof Error ? err.message : "추천 요청에 실패했습니다.");
     } finally {
@@ -133,17 +136,23 @@ export default function HomePage() {
 
           {aiError && <p className="text-sm text-destructive">{aiError}</p>}
 
-          {aiResults.length > 0 && (
+          {aiSearched && (
             <div className="space-y-4 text-left">
               <h2 className="text-xl font-bold">
                 AI 추천 결과{" "}
                 <Badge variant="secondary">{aiResults.length}건</Badge>
               </h2>
-              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-                {aiResults.map((space) => (
-                  <SpaceCard key={space.id} space={space} />
-                ))}
-              </div>
+              {aiResults.length > 0 ? (
+                <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                  {aiResults.map((space) => (
+                    <SpaceCard key={space.id} space={space} />
+                  ))}
+                </div>
+              ) : (
+                <p className="text-center text-muted-foreground py-8">
+                  조건에 맞는 추천 공간이 없습니다.
+                </p>
+              )}
             </div>
           )}
 
