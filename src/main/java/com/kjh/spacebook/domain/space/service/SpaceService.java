@@ -86,7 +86,7 @@ public class SpaceService {
                 .map(SpaceListResponse::from);
     }
 
-    public SpaceResponse getSpace(Long spaceId) {
+    public SpaceResponse getSpaceDetail(Long spaceId) {
         Space space = spaceRepository.findByIdAndDeletedAtIsNullAndSpaceStatus(spaceId, SpaceStatus.OPEN)
                 .orElseThrow(() -> new BusinessException(SpaceErrorCode.SPACE_NOT_FOUND));
 
