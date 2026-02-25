@@ -97,7 +97,7 @@ public class ReservationService {
                 .map(ReservationListResponse::from);
     }
 
-    public ReservationResponse getReservation(Long userId, Long reservationId) {
+    public ReservationResponse getMyReservationDetail(Long userId, Long reservationId) {
         Reservation reservation = reservationRepository.findById(reservationId)
                 .orElseThrow(() -> new BusinessException(ReservationErrorCode.RESERVATION_NOT_FOUND));
 

@@ -81,8 +81,8 @@ public class SpaceController {
     }
 
     @GetMapping("/{spaceId}")
-    public ResponseEntity<ApiResponse<SpaceResponse>> getSpace(@PathVariable Long spaceId) {
-        SpaceResponse response = spaceService.getSpace(spaceId);
+    public ResponseEntity<ApiResponse<SpaceResponse>> getSpaceDetail(@PathVariable Long spaceId) {
+        SpaceResponse response = spaceService.getSpaceDetail(spaceId);
         return ResponseEntity.status(HttpStatus.OK).body(ApiResponse.success(response));
     }
 }

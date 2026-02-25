@@ -45,11 +45,11 @@ public class ReservationController {
     }
 
     @GetMapping("/{reservationId}")
-    public ResponseEntity<ApiResponse<ReservationResponse>> getReservation(
+    public ResponseEntity<ApiResponse<ReservationResponse>> getMyReservationDetail(
             @AuthenticationPrincipal Long userId,
             @PathVariable Long reservationId
     ) {
-        ReservationResponse response = reservationService.getReservation(userId, reservationId);
+        ReservationResponse response = reservationService.getMyReservationDetail(userId, reservationId);
         return ResponseEntity.status(HttpStatus.OK).body(ApiResponse.success(response));
     }
 }
