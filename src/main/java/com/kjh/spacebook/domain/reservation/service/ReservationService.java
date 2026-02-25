@@ -2,6 +2,7 @@ package com.kjh.spacebook.domain.reservation.service;
 
 import com.kjh.spacebook.common.exception.BusinessException;
 import com.kjh.spacebook.domain.reservation.dto.request.CreateReservationRequest;
+import com.kjh.spacebook.domain.reservation.dto.response.ReservationListResponse;
 import com.kjh.spacebook.domain.reservation.dto.response.ReservationResponse;
 import com.kjh.spacebook.domain.reservation.entity.Reservation;
 import com.kjh.spacebook.domain.reservation.enums.ReservationStatus;
@@ -15,6 +16,8 @@ import com.kjh.spacebook.domain.user.entity.User;
 import com.kjh.spacebook.domain.user.exception.UserErrorCode;
 import com.kjh.spacebook.domain.user.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -84,5 +87,13 @@ public class ReservationService {
         reservationRepository.save(reservation);
 
         return ReservationResponse.from(reservation);
+    }
+
+    public Page<ReservationListResponse> getMyReservations(Long userId, Pageable pageable) {
+        User user = userRepository.findById(userId)
+                .orElseThrow(() -> new BusinessException(UserErrorCode.USER_NOT_FOUND));
+
+        return reservationRepository.findAllByUser(user, pageable)
+                .map(ReservationListResponse::from);
     }
 }
