@@ -278,14 +278,16 @@ export default function ReservePage() {
                     <SelectContent>
                       {HOUR_OPTIONS.slice(0, -1).map((opt) => {
                         const reserved = isHourReserved(Number(opt.value));
-                        return (
-                          <SelectItem
+                        return reserved ? (
+                          <div
                             key={opt.value}
-                            value={opt.value}
-                            disabled={reserved}
-                            className={reserved ? "line-through text-muted-foreground opacity-50" : ""}
+                            className="relative flex w-full cursor-not-allowed items-center rounded-sm py-1.5 pl-2 pr-8 text-sm text-muted-foreground line-through opacity-50"
                           >
-                            {opt.label}{reserved ? " (예약됨)" : ""}
+                            {opt.label} (예약됨)
+                          </div>
+                        ) : (
+                          <SelectItem key={opt.value} value={opt.value}>
+                            {opt.label}
                           </SelectItem>
                         );
                       })}
