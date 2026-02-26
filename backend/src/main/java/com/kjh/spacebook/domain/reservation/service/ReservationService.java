@@ -52,8 +52,7 @@ public class ReservationService {
         User user = userRepository.findById(userId)
                 .orElseThrow(() -> new BusinessException(UserErrorCode.USER_NOT_FOUND));
 
-        Space space = spaceRepository.findByIdAndDeletedAtIsNullAndSpaceStatus(
-                        request.spaceId(), SpaceStatus.OPEN)
+        Space space = spaceRepository.findByIdForReservation(request.spaceId(), SpaceStatus.OPEN)
                 .orElseThrow(() -> new BusinessException(SpaceErrorCode.SPACE_NOT_FOUND));
 
         if (request.peopleCount() > space.getCapacity()) {
