@@ -9,7 +9,15 @@ import {
   type ReactNode,
 } from "react";
 import type { User, LoginRequest, SignupRequest, TokenResponse, UpdateUserRequest } from "@/types";
-import { api, setTokens, clearTokens, getAccessToken, withdraw as withdrawApi, updateMyInfo } from "@/lib/api";
+import {
+  api,
+  setTokens,
+  clearTokens,
+  getAccessToken,
+  setSessionExpiredCallback,
+  withdraw as withdrawApi,
+  updateMyInfo,
+} from "@/lib/api";
 
 // Context에 담길 인증 상태와 함수들
 interface AuthContextType {
@@ -51,6 +59,14 @@ export function AuthProvider({ children }: { children: ReactNode }) {
   useEffect(() => {
     fetchUser();
   }, [fetchUser]);
+
+  // 토큰 재발급 실패 시 user 상태 초기화
+  useEffect(() => {
+    setSessionExpiredCallback(() => {
+      setUser(null);
+    });
+    return () => setSessionExpiredCallback(null);
+  }, []);
 
   const login = async (request: LoginRequest) => {
     const res = await api<TokenResponse>("/auth/login", {
