@@ -71,8 +71,16 @@ export default function SpaceDetailPage() {
       <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
         {/* 공간 정보 */}
         <div className="lg:col-span-2 space-y-6">
-          <div className="h-64 bg-muted rounded-lg flex items-center justify-center text-muted-foreground">
-            {space.spaceName} 이미지
+          <div className="h-64 bg-muted rounded-lg flex items-center justify-center text-muted-foreground overflow-hidden">
+            {space.imageUrl ? (
+              <img
+                src={space.imageUrl}
+                alt={space.spaceName}
+                className="w-full h-full object-cover rounded-lg"
+              />
+            ) : (
+              `${space.spaceName} 이미지`
+            )}
           </div>
 
           <div>

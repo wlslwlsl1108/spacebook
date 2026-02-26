@@ -17,8 +17,16 @@ interface SpaceCardProps {
 export default function SpaceCard({ space }: SpaceCardProps) {
   return (
     <Card className="overflow-hidden">
-      <div className="h-48 bg-muted flex items-center justify-center text-muted-foreground text-sm">
-        {space.imageUrl ? space.spaceName : "이미지 없음"}
+      <div className="h-48 bg-muted flex items-center justify-center text-muted-foreground text-sm overflow-hidden">
+        {space.imageUrl ? (
+          <img
+            src={space.imageUrl}
+            alt={space.spaceName}
+            className="w-full h-full object-cover"
+          />
+        ) : (
+          "이미지 없음"
+        )}
       </div>
 
       <CardContent className="pt-4 space-y-2">
