@@ -53,7 +53,7 @@ public class SecurityConfig {
                                 "/webjars/**")
                         .permitAll()
                         .requestMatchers("/api/v1/auth/signup", "/api/v1/auth/login", "/api/v1/auth/reissue").permitAll()
-                        .requestMatchers(HttpMethod.GET, "/api/v1/spaces", "/api/v1/spaces/{spaceId}").permitAll()
+                        .requestMatchers(HttpMethod.GET, "/api/v1/spaces", "/api/v1/spaces/{spaceId}", "/api/v1/spaces/{spaceId}/reserved-times").permitAll()
                         .requestMatchers("/actuator/**").permitAll()
                         .requestMatchers(HttpMethod.OPTIONS, "/**").permitAll()
                         .requestMatchers("/healthz").permitAll()

@@ -4,6 +4,7 @@ import com.kjh.spacebook.common.exception.BusinessException;
 import com.kjh.spacebook.domain.reservation.dto.request.CreateReservationRequest;
 import com.kjh.spacebook.domain.reservation.dto.response.ReservationListResponse;
 import com.kjh.spacebook.domain.reservation.dto.response.ReservationResponse;
+import com.kjh.spacebook.domain.reservation.dto.response.ReservedTimeResponse;
 import com.kjh.spacebook.domain.reservation.entity.Reservation;
 import com.kjh.spacebook.domain.reservation.enums.ReservationStatus;
 import com.kjh.spacebook.domain.reservation.exception.ReservationErrorCode;
@@ -22,7 +23,10 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.time.Duration;
+import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.time.temporal.ChronoUnit;
+import java.util.List;
 
 @Service
 @RequiredArgsConstructor
@@ -37,7 +41,8 @@ public class ReservationService {
             Long userId,
             CreateReservationRequest request
     ) {
-        if (request.startTime().getMinute() != 0 || request.endTime().getMinute() != 0) {
+        if (!request.startTime().truncatedTo(ChronoUnit.HOURS).equals(request.startTime())
+                || !request.endTime().truncatedTo(ChronoUnit.HOURS).equals(request.endTime())) {
             throw new BusinessException(ReservationErrorCode.RESERVATION_NOT_HOURLY);
         }
 
@@ -45,15 +50,14 @@ public class ReservationService {
             throw new BusinessException(ReservationErrorCode.RESERVATION_INVALID_TIME);
         }
 
-        if (request.startTime().isBefore(LocalDateTime.now())) {
+        if (request.startTime().isBefore(LocalDateTime.now().truncatedTo(ChronoUnit.HOURS))) {
             throw new BusinessException(ReservationErrorCode.RESERVATION_PAST_TIME);
         }
 
         User user = userRepository.findById(userId)
                 .orElseThrow(() -> new BusinessException(UserErrorCode.USER_NOT_FOUND));
 
-        Space space = spaceRepository.findByIdAndDeletedAtIsNullAndSpaceStatus(
-                        request.spaceId(), SpaceStatus.OPEN)
+        Space space = spaceRepository.findByIdForReservation(request.spaceId(), SpaceStatus.OPEN)
                 .orElseThrow(() -> new BusinessException(SpaceErrorCode.SPACE_NOT_FOUND));
 
         if (request.peopleCount() > space.getCapacity()) {
@@ -88,6 +92,22 @@ public class ReservationService {
 
         return ReservationResponse.from(reservation);
     }
+
+    // 공개
+
+    public List<ReservedTimeResponse> getReservedTimes(Long spaceId, LocalDate date) {
+        LocalDateTime dateStart = date.atStartOfDay();
+        LocalDateTime dateEnd = date.plusDays(1).atStartOfDay();
+
+        return reservationRepository.findReservedTimes(
+                spaceId,
+                ReservationStatus.CONFIRMED,
+                dateStart,
+                dateEnd
+        ).stream().map(ReservedTimeResponse::from).toList();
+    }
+
+    // 인증
 
     public Page<ReservationListResponse> getMyReservations(Long userId, Pageable pageable) {
         User user = userRepository.findById(userId)
