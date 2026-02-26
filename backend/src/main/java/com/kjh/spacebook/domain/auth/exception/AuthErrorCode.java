@@ -25,7 +25,8 @@ public enum AuthErrorCode implements ErrorCode {
 
     // 회원탈퇴
     INVALID_PASSWORD(HttpStatus.BAD_REQUEST, "비밀번호가 일치하지 않습니다."),
-    MISSING_PASSWORD(HttpStatus.BAD_REQUEST, "회원 탈퇴를 위해 비밀번호를 입력해야 합니다.");
+    MISSING_PASSWORD(HttpStatus.BAD_REQUEST, "회원 탈퇴를 위해 비밀번호를 입력해야 합니다."),
+    HAS_CONFIRMED_RESERVATION(HttpStatus.CONFLICT, "확정된 예약이 존재하여 탈퇴할 수 없습니다.");
 
     private final HttpStatus status;
     private final String message;

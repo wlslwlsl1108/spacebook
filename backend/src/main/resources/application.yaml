@@ -21,7 +21,7 @@ spring:
 jwt:
   secret: ${JWT_SECRET}
   access-token-expire-minutes: 30
-  refresh-token-expire-days: 7
+  refresh-token-expire-days: 1
 
 groq:
   api-key: ${GROQ_API_KEY}

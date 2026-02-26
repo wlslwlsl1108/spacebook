@@ -9,6 +9,8 @@ import com.kjh.spacebook.domain.auth.dto.response.TokenResponse;
 import com.kjh.spacebook.domain.auth.entity.RefreshToken;
 import com.kjh.spacebook.domain.auth.exception.AuthErrorCode;
 import com.kjh.spacebook.domain.auth.repository.RefreshTokenRepository;
+import com.kjh.spacebook.domain.reservation.enums.ReservationStatus;
+import com.kjh.spacebook.domain.reservation.repository.ReservationRepository;
 import com.kjh.spacebook.domain.user.entity.User;
 import com.kjh.spacebook.domain.user.exception.UserErrorCode;
 import com.kjh.spacebook.domain.user.repository.UserRepository;
@@ -27,6 +29,7 @@ import java.time.LocalDateTime;
 public class AuthService {
     private final UserRepository userRepository;
     private final RefreshTokenRepository refreshTokenRepository;
+    private final ReservationRepository reservationRepository;
     private final PasswordEncoder passwordEncoder;
     private final JwtUtil jwtUtil;
 
@@ -68,6 +71,10 @@ public class AuthService {
                 .orElseThrow(() -> new BusinessException(UserErrorCode.USER_NOT_FOUND));
 
         user.validatePassword(rawPassword, passwordEncoder);
+
+        if (reservationRepository.existsByUserAndStatus(user, ReservationStatus.CONFIRMED)) {
+            throw new BusinessException(AuthErrorCode.HAS_CONFIRMED_RESERVATION);
+        }
 
         refreshTokenRepository.deleteByUser(user);
         user.withdraw();
