@@ -4,7 +4,7 @@ spring:
 
   datasource:
   #한글 깨짐 방지 및 타임존 문제 방지
-    url: jdbc:mysql://${MYSQLHOST}:${MYSQLPORT}/${MYSQLDATABASE}?serverTimezone=Asia/Seoul&characterEncoding=UTF-8
+    url: ${MYSQL_URL}
     username: ${MYSQLUSER}
     password: ${MYSQLPASSWORD}
     driver-class-name: com.mysql.cj.jdbc.Driver
