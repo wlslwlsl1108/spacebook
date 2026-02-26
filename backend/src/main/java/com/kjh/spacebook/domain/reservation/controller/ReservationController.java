@@ -8,6 +8,7 @@ import com.kjh.spacebook.domain.reservation.service.ReservationService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
 import io.swagger.v3.oas.annotations.tags.Tag;
+import org.springdoc.core.annotations.ParameterObject;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
@@ -45,7 +46,7 @@ public class ReservationController {
     @GetMapping("/my")
     public ResponseEntity<ApiResponse<Page<ReservationListResponse>>> getMyReservations(
             @Parameter(hidden = true) @AuthenticationPrincipal Long userId,
-            @PageableDefault(size = 10) Pageable pageable
+            @ParameterObject @PageableDefault(size = 10) Pageable pageable
     ) {
         Page<ReservationListResponse> responses = reservationService.getMyReservations(userId, pageable);
         return ResponseEntity.status(HttpStatus.OK).body(ApiResponse.success(responses));
