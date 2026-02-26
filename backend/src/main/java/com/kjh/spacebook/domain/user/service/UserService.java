@@ -43,6 +43,9 @@ public class UserService {
 
         if (hasCurrentPassword && hasNewPassword) {
             user.validatePassword(request.currentPassword(), passwordEncoder);
+            if (request.currentPassword().equals(request.newPassword())) {
+                throw new BusinessException(UserErrorCode.SAME_PASSWORD);
+            }
             user.changePassword(passwordEncoder.encode(request.newPassword()));
         }
 
