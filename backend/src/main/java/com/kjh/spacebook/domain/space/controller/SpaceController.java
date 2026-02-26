@@ -6,6 +6,8 @@ import com.kjh.spacebook.domain.space.dto.request.UpdateSpaceRequest;
 import com.kjh.spacebook.domain.space.dto.response.SpaceListResponse;
 import com.kjh.spacebook.domain.space.dto.response.SpaceResponse;
 import com.kjh.spacebook.domain.space.service.SpaceService;
+import com.kjh.spacebook.domain.reservation.dto.response.ReservedTimeResponse;
+import com.kjh.spacebook.domain.reservation.service.ReservationService;
 import jakarta.validation.Valid;
 import jakarta.validation.constraints.Min;
 import lombok.RequiredArgsConstructor;
@@ -29,12 +31,16 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.RestController;
 
+import java.time.LocalDate;
+import java.util.List;
+
 @RestController
 @RequestMapping("/api/v1/spaces")
 @RequiredArgsConstructor
 @Validated
 public class SpaceController {
     private final SpaceService spaceService;
+    private final ReservationService reservationService;
 
     // 관리자
 
@@ -94,5 +100,14 @@ public class SpaceController {
     public ResponseEntity<ApiResponse<SpaceResponse>> getSpaceDetail(@PathVariable("spaceId") Long spaceId) {
         SpaceResponse response = spaceService.getSpaceDetail(spaceId);
         return ResponseEntity.status(HttpStatus.OK).body(ApiResponse.success(response));
+    }
+
+    @GetMapping("/{spaceId}/reserved-times")
+    public ResponseEntity<ApiResponse<List<ReservedTimeResponse>>> getReservedTimes(
+            @PathVariable("spaceId") Long spaceId,
+            @RequestParam("date") LocalDate date
+    ) {
+        List<ReservedTimeResponse> responses = reservationService.getReservedTimes(spaceId, date);
+        return ResponseEntity.status(HttpStatus.OK).body(ApiResponse.success(responses));
     }
 }
