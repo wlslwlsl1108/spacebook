@@ -97,6 +97,18 @@ export async function getMyReservations(page: number = 0) {
   return api<PageResponse<ReservationListItem>>(`/reservations/my?page=${page}`);
 }
 
+// 예약 상세 조회 (로그인 필요)
+export async function getReservationDetail(reservationId: number) {
+  return api<Reservation>(`/reservations/${reservationId}`);
+}
+
+// 예약 취소 (로그인 필요)
+export async function cancelReservation(reservationId: number) {
+  return api<void>(`/reservations/${reservationId}/cancel`, {
+    method: "PATCH",
+  });
+}
+
 // 회원 탈퇴 (로그인 필요)
 export async function withdraw(password: string) {
   return api<void>("/auth/withdraw", {
