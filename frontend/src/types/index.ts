@@ -129,6 +129,12 @@ export interface DeleteAccountRequest {
   password: string;
 }
 
+// 예약된 시간대 응답 (백엔드 ReservedTimeResponse 대응)
+export interface ReservedTime {
+  startHour: number;
+  endHour: number;
+}
+
 // AI 추천
 export interface RecommendationRequest {
   query: string;

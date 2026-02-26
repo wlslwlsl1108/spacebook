@@ -3,8 +3,8 @@
 import { useState, useEffect } from "react";
 import { useParams, useRouter } from "next/navigation";
 import { useAuth } from "@/hooks/use-auth";
-import { getSpaceDetail, createReservation } from "@/lib/api";
-import type { Space } from "@/types";
+import { getSpaceDetail, createReservation, getReservedTimes } from "@/lib/api";
+import type { Space, ReservedTime } from "@/types";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -54,6 +54,7 @@ export default function ReservePage() {
   const [purpose, setPurpose] = useState("");
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [submitError, setSubmitError] = useState("");
+  const [reservedTimes, setReservedTimes] = useState<ReservedTime[]>([]);
 
   // 비로그인 시 로그인 페이지로 리다이렉트
   useEffect(() => {
@@ -79,6 +80,23 @@ export default function ReservePage() {
     fetchSpace();
   }, [id]);
 
+  // 날짜 변경 시 예약된 시간대 조회
+  useEffect(() => {
+    if (!date) {
+      setReservedTimes([]);
+      return;
+    }
+    async function fetchReservedTimes() {
+      try {
+        const res = await getReservedTimes(Number(id), date);
+        setReservedTimes(res.data);
+      } catch {
+        setReservedTimes([]);
+      }
+    }
+    fetchReservedTimes();
+  }, [id, date]);
+
   // 오늘 날짜 (min 속성용)
   const today = new Date().toISOString().split("T")[0];
 
@@ -87,10 +105,23 @@ export default function ReservePage() {
     startHour && endHour ? Number(endHour) - Number(startHour) : 0;
   const totalPrice = hours > 0 && space ? hours * space.pricePerHour : 0;
 
-  // 종료 시간 옵션 (시작 시간 이후만)
-  const endHourOptions = startHour
-    ? HOUR_OPTIONS.filter((opt) => Number(opt.value) > Number(startHour))
-    : [];
+  // 시작 시간이 예약된 범위에 속하는지 확인
+  const isHourReserved = (hour: number) =>
+    reservedTimes.some((rt) => hour >= rt.startHour && hour < rt.endHour);
+
+  // 종료 시간 옵션: 시작 시간 이후 ~ 가장 가까운 예약 시작 시간까지
+  const endHourOptions = (() => {
+    if (!startHour) return [];
+    const start = Number(startHour);
+    // 선택한 시작 시간 이후 가장 가까운 예약 블록의 시작 시간
+    const nextReservedStart = reservedTimes
+      .filter((rt) => rt.startHour > start)
+      .sort((a, b) => a.startHour - b.startHour)[0]?.startHour;
+    const maxEnd = nextReservedStart ?? 23; // 예약 없으면 22시까지
+    return HOUR_OPTIONS.filter(
+      (opt) => Number(opt.value) > start && Number(opt.value) <= maxEnd
+    );
+  })();
 
   // 시작 시간 변경 시 종료 시간 초기화
   const handleStartHourChange = (value: string) => {
@@ -225,7 +256,11 @@ export default function ReservePage() {
                     type="date"
                     min={today}
                     value={date}
-                    onChange={(e) => setDate(e.target.value)}
+                    onChange={(e) => {
+                      setDate(e.target.value);
+                      setStartHour("");
+                      setEndHour("");
+                    }}
                     required
                   />
                 </div>
@@ -241,11 +276,19 @@ export default function ReservePage() {
                       <SelectValue placeholder="시작 시간 선택" />
                     </SelectTrigger>
                     <SelectContent>
-                      {HOUR_OPTIONS.slice(0, -1).map((opt) => (
-                        <SelectItem key={opt.value} value={opt.value}>
-                          {opt.label}
-                        </SelectItem>
-                      ))}
+                      {HOUR_OPTIONS.slice(0, -1).map((opt) => {
+                        const reserved = isHourReserved(Number(opt.value));
+                        return (
+                          <SelectItem
+                            key={opt.value}
+                            value={opt.value}
+                            disabled={reserved}
+                            className={reserved ? "line-through text-muted-foreground opacity-50" : ""}
+                          >
+                            {opt.label}{reserved ? " (예약됨)" : ""}
+                          </SelectItem>
+                        );
+                      })}
                     </SelectContent>
                   </Select>
                 </div>

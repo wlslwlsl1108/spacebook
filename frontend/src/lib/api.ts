@@ -8,6 +8,7 @@ import type {
   CreateReservationRequest,
   Reservation,
   ReservationListItem,
+  ReservedTime,
   DeleteAccountRequest,
   UpdateUserRequest,
   User,
@@ -154,6 +155,11 @@ export async function getSpaces(params: SpaceSearchParams = {}) {
 // 공간 상세 조회
 export async function getSpaceDetail(id: number) {
   return api<Space>(`/spaces/${id}`);
+}
+
+// 예약된 시간대 조회 (공개)
+export async function getReservedTimes(spaceId: number, date: string) {
+  return api<ReservedTime[]>(`/spaces/${spaceId}/reserved-times?date=${date}`);
 }
 
 // 예약 생성 (로그인 필요)
