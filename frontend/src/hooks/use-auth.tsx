@@ -8,8 +8,8 @@ import {
   useCallback,
   type ReactNode,
 } from "react";
-import type { User, LoginRequest, SignupRequest, TokenResponse } from "@/types";
-import { api, setTokens, clearTokens, getAccessToken, withdraw as withdrawApi } from "@/lib/api";
+import type { User, LoginRequest, SignupRequest, TokenResponse, UpdateUserRequest } from "@/types";
+import { api, setTokens, clearTokens, getAccessToken, withdraw as withdrawApi, updateMyInfo } from "@/lib/api";
 
 // Context에 담길 인증 상태와 함수들
 interface AuthContextType {
@@ -19,6 +19,7 @@ interface AuthContextType {
   signup: (request: SignupRequest) => Promise<void>;
   logout: () => Promise<void>;
   withdraw: (password: string) => Promise<void>;
+  updateProfile: (request: UpdateUserRequest) => Promise<void>;
 }
 
 const AuthContext = createContext<AuthContextType | null>(null);
@@ -84,8 +85,13 @@ export function AuthProvider({ children }: { children: ReactNode }) {
     setUser(null);
   };
 
+  const updateProfile = async (request: UpdateUserRequest) => {
+    await updateMyInfo(request);
+    await fetchUser();
+  };
+
   return (
-    <AuthContext.Provider value={{ user, isLoading, login, signup, logout, withdraw }}>
+    <AuthContext.Provider value={{ user, isLoading, login, signup, logout, withdraw, updateProfile }}>
       {children}
     </AuthContext.Provider>
   );

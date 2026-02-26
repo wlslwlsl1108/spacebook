@@ -117,6 +117,13 @@ export interface Reservation {
   createdAt: string;
 }
 
+// 내 정보 수정 요청 (백엔드 UpdateUserRequest 대응)
+export interface UpdateUserRequest {
+  phoneNumber?: string;
+  currentPassword?: string;
+  newPassword?: string;
+}
+
 // 회원 탈퇴 요청 (백엔드 DeleteAccountRequest 대응)
 export interface DeleteAccountRequest {
   password: string;

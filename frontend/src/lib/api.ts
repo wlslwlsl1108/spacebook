@@ -8,6 +8,8 @@ import type {
   Reservation,
   ReservationListItem,
   DeleteAccountRequest,
+  UpdateUserRequest,
+  User,
 } from "@/types";
 
 const BASE_URL = "http://localhost:8080/api/v1";
@@ -106,6 +108,14 @@ export async function getReservationDetail(reservationId: number) {
 export async function cancelReservation(reservationId: number) {
   return api<void>(`/reservations/${reservationId}/cancel`, {
     method: "PATCH",
+  });
+}
+
+// 내 정보 수정 (로그인 필요)
+export async function updateMyInfo(request: UpdateUserRequest) {
+  return api<User>("/users/me", {
+    method: "PATCH",
+    body: JSON.stringify(request),
   });
 }
 
