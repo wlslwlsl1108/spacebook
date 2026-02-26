@@ -11,6 +11,7 @@ import com.kjh.spacebook.domain.reservation.service.ReservationService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
 import io.swagger.v3.oas.annotations.tags.Tag;
+import org.springdoc.core.annotations.ParameterObject;
 import jakarta.validation.Valid;
 import jakarta.validation.constraints.Min;
 import lombok.RequiredArgsConstructor;
@@ -84,7 +85,7 @@ public class SpaceController {
     @GetMapping("/me")
     public ResponseEntity<ApiResponse<Page<SpaceListResponse>>> getMySpaces(
             @Parameter(hidden = true) @AuthenticationPrincipal Long userId,
-            @PageableDefault(size = 10) Pageable pageable
+            @ParameterObject @PageableDefault(size = 10) Pageable pageable
     ) {
         Page<SpaceListResponse> responses = spaceService.getMySpaces(userId, pageable);
         return ResponseEntity.status(HttpStatus.OK).body(ApiResponse.success(responses));
@@ -104,7 +105,7 @@ public class SpaceController {
             @RequestParam(name = "minPrice", required = false) @Min(0) Integer minPrice,
             @Parameter(description = "최대 가격", example = "50000")
             @RequestParam(name = "maxPrice", required = false) @Min(0) Integer maxPrice,
-            @PageableDefault(size = 10, sort = "createdAt", direction = Sort.Direction.DESC) Pageable pageable
+            @ParameterObject @PageableDefault(size = 10, sort = "createdAt", direction = Sort.Direction.DESC) Pageable pageable
     ) {
         Page<SpaceListResponse> responses = spaceService.getSpaces(location, spaceType, minPrice, maxPrice, pageable);
         return ResponseEntity.status(HttpStatus.OK).body(ApiResponse.success(responses));
