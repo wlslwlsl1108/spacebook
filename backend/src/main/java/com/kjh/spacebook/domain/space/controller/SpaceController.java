@@ -51,7 +51,7 @@ public class SpaceController {
     @PatchMapping("/{spaceId}")
     @PreAuthorize("hasRole('ADMIN')")
     public ResponseEntity<ApiResponse<SpaceResponse>> updateSpace(
-            @PathVariable Long spaceId,
+            @PathVariable("spaceId") Long spaceId,
             @Valid @RequestBody UpdateSpaceRequest request
     ) {
         SpaceResponse response = spaceService.updateSpace(spaceId, request);
@@ -60,7 +60,7 @@ public class SpaceController {
 
     @DeleteMapping("/{spaceId}")
     @PreAuthorize("hasRole('ADMIN')")
-    public ResponseEntity<ApiResponse<Void>> deleteSpace(@PathVariable Long spaceId) {
+    public ResponseEntity<ApiResponse<Void>> deleteSpace(@PathVariable("spaceId") Long spaceId) {
         spaceService.deleteSpace(spaceId);
         return ResponseEntity.status(HttpStatus.OK).body(ApiResponse.success(null));
     }
@@ -80,10 +80,10 @@ public class SpaceController {
 
     @GetMapping
     public ResponseEntity<ApiResponse<Page<SpaceListResponse>>> getSpaces(
-            @RequestParam(required = false) String location,
-            @RequestParam(required = false) SpaceType spaceType,
-            @RequestParam(required = false) @Min(0) Integer minPrice,
-            @RequestParam(required = false) @Min(0) Integer maxPrice,
+            @RequestParam(name = "location", required = false) String location,
+            @RequestParam(name = "spaceType", required = false) SpaceType spaceType,
+            @RequestParam(name = "minPrice", required = false) @Min(0) Integer minPrice,
+            @RequestParam(name = "maxPrice", required = false) @Min(0) Integer maxPrice,
             @PageableDefault(size = 10, sort = "createdAt", direction = Sort.Direction.DESC) Pageable pageable
     ) {
         Page<SpaceListResponse> responses = spaceService.getSpaces(location, spaceType, minPrice, maxPrice, pageable);
@@ -91,7 +91,7 @@ public class SpaceController {
     }
 
     @GetMapping("/{spaceId}")
-    public ResponseEntity<ApiResponse<SpaceResponse>> getSpaceDetail(@PathVariable Long spaceId) {
+    public ResponseEntity<ApiResponse<SpaceResponse>> getSpaceDetail(@PathVariable("spaceId") Long spaceId) {
         SpaceResponse response = spaceService.getSpaceDetail(spaceId);
         return ResponseEntity.status(HttpStatus.OK).body(ApiResponse.success(response));
     }
