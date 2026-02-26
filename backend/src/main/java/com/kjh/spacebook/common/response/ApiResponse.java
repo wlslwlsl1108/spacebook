@@ -16,7 +16,7 @@ public class ApiResponse<T> {
     @Schema(description = "응답 데이터")
     private final T data;
 
-    @Schema(description = "메시지 (에러 시 에러 메시지)", example = "예약이 취소되었습니다.")
+    @Schema(description = "메시지 (성공/에러 시 메시지)", example = "요청이 처리되었습니다.")
     private final String message;
 
     @Schema(description = "응답 시간", example = "2026-03-01T10:00:00")
