@@ -1,5 +1,6 @@
 import type {
   ApiResponse,
+  TokenResponse,
   Space,
   SpaceListItem,
   PageResponse,
@@ -35,7 +36,39 @@ export function clearTokens() {
   localStorage.removeItem("refreshToken");
 }
 
-// 공통 fetch 래퍼
+// 세션 만료 시 호출되는 콜백 (AuthProvider에서 등록)
+let onSessionExpired: (() => void) | null = null;
+
+export function setSessionExpiredCallback(callback: (() => void) | null) {
+  onSessionExpired = callback;
+}
+
+// 동시 재발급 방지용 Promise
+let reissuePromise: Promise<boolean> | null = null;
+
+// refreshToken으로 토큰 재발급 시도
+async function tryReissue(): Promise<boolean> {
+  const refreshToken = getRefreshToken();
+  if (!refreshToken) return false;
+
+  try {
+    const response = await fetch(`${BASE_URL}/auth/reissue`, {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ refreshToken }),
+    });
+
+    const body: ApiResponse<TokenResponse> = await response.json();
+    if (!body.success) return false;
+
+    setTokens(body.data.accessToken, body.data.refreshToken);
+    return true;
+  } catch {
+    return false;
+  }
+}
+
+// 공통 fetch 래퍼 (401 시 자동 재발급 + 재요청)
 export async function api<T>(
   endpoint: string,
   options: RequestInit = {},
@@ -55,6 +88,42 @@ export async function api<T>(
     ...options,
     headers,
   });
+
+  // 401이고 재발급 대상인 경우 → 토큰 재발급 시도
+  if (response.status === 401 && endpoint !== "/auth/reissue") {
+    // 동시에 여러 요청이 401을 받아도 재발급은 1번만 실행
+    if (!reissuePromise) {
+      reissuePromise = tryReissue().finally(() => {
+        reissuePromise = null;
+      });
+    }
+
+    const reissued = await reissuePromise;
+
+    if (reissued) {
+      // 새 토큰으로 원래 요청 재시도
+      const newToken = getAccessToken();
+      if (newToken) {
+        headers["Authorization"] = `Bearer ${newToken}`;
+      }
+
+      const retryResponse = await fetch(`${BASE_URL}${endpoint}`, {
+        ...options,
+        headers,
+      });
+
+      const retryBody: ApiResponse<T> = await retryResponse.json();
+      if (!retryBody.success) {
+        throw new Error(retryBody.message || "요청에 실패했습니다.");
+      }
+      return retryBody;
+    }
+
+    // 재발급 실패 → 세션 만료 처리
+    clearTokens();
+    onSessionExpired?.();
+    throw new Error("인증이 만료되었습니다. 다시 로그인해주세요.");
+  }
 
   const body: ApiResponse<T> = await response.json();
 
