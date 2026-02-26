@@ -3,7 +3,6 @@ spring:
     name: spacebook
 
   datasource:
-  #한글 깨짐 방지 및 타임존 문제 방지
     url: ${MYSQL_URL}
     username: ${MYSQLUSER}
     password: ${MYSQLPASSWORD}
@@ -17,6 +16,9 @@ spring:
       hibernate:
         format_sql: true
     open-in-view: false
+
+server:
+  port: ${PORT:8080}
 
 jwt:
   secret: ${JWT_SECRET}
