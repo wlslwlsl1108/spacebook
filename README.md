@@ -2,11 +2,11 @@
 
 AI 기반 공간 예약 플랫폼
 
-> AI 기반으로 원하는 공간을 추천받고, 실시간 예약까지 한 번에 가능한 AI 기반 공간 예약 플랫폼입니다.
+> AI 기반으로 원하는 공간을 추천받고, 실시간 예약까지 한 번에 가능한 공간 예약 플랫폼입니다.
 
 <br>
 
-## 배포 링크
+## 🔗 배포 링크
 
 | 서비스 | URL |
 |--------|-----|
@@ -16,37 +16,64 @@ AI 기반 공간 예약 플랫폼
 
 <br>
 
-## 기술 스택
+## 🛠 기술 스택
 
 ### Backend
 
-| 분류 | 기술 |
-|------|------|
-| Language | Java 17 |
-| Framework | Spring Boot 3.5 |
-| Security | Spring Security + JWT (jjwt 0.12) |
-| ORM | Spring Data JPA (Hibernate) |
-| Database | MySQL 8 |
-| Validation | Bean Validation (Hibernate Validator) |
-| AI | Groq API (LLaMA 3.3 70B) |
-| API Docs | springdoc-openapi (Swagger UI) |
-| Email | Spring Boot Mail (Gmail SMTP) |
-| Test | JUnit 5 + Mockito |
-| Deploy | Railway (Docker) |
+![Java 17](https://img.shields.io/badge/Java_17-ED8B00?style=for-the-badge&logo=openjdk&logoColor=white)
+![Spring Boot](https://img.shields.io/badge/Spring_Boot_3.5-6DB33F?style=for-the-badge&logo=springboot&logoColor=white)
+![Spring Data JPA](https://img.shields.io/badge/Spring_Data_JPA-6DB33F?style=for-the-badge&logo=spring&logoColor=white)
+![Hibernate Validator](https://img.shields.io/badge/Hibernate_Validator-59666C?style=for-the-badge&logo=hibernate&logoColor=white)
 
 ### Frontend
 
-| 분류 | 기술 |
-|------|------|
-| Language | TypeScript 5 |
-| Framework | Next.js 16 (App Router) |
-| UI | React 19 + Tailwind CSS 4 + shadcn/ui |
-| Icons | Lucide React |
-| Deploy | Vercel |
+![TypeScript](https://img.shields.io/badge/TypeScript_5-3178C6?style=for-the-badge&logo=typescript&logoColor=white)
+![Next.js](https://img.shields.io/badge/Next.js_16-000000?style=for-the-badge&logo=nextdotjs&logoColor=white)
+![React](https://img.shields.io/badge/React_19-61DAFB?style=for-the-badge&logo=react&logoColor=black)
+![Tailwind CSS](https://img.shields.io/badge/Tailwind_CSS_4-06B6D4?style=for-the-badge&logo=tailwindcss&logoColor=white)
+![shadcn/ui](https://img.shields.io/badge/shadcn/ui-000000?style=for-the-badge&logo=shadcnui&logoColor=white)
+![Lucide React](https://img.shields.io/badge/Lucide_React-F56565?style=for-the-badge)
+
+### 🔐 Authentication
+
+![Spring Security](https://img.shields.io/badge/Spring_Security-6DB33F?style=for-the-badge&logo=springsecurity&logoColor=white)
+![JWT](https://img.shields.io/badge/JWT-000000?style=for-the-badge&logo=jsonwebtokens&logoColor=white)
+
+### 🗄 Database
+
+![MySQL](https://img.shields.io/badge/MySQL_8-4479A1?style=for-the-badge&logo=mysql&logoColor=white)
+
+### 🤖 AI / External API
+
+![Groq](https://img.shields.io/badge/Groq_API-F55036?style=for-the-badge)
+![LLaMA](https://img.shields.io/badge/LLaMA_3.3_70B-0467DF?style=for-the-badge&logo=meta&logoColor=white)
+![SendGrid](https://img.shields.io/badge/SendGrid-1A82E2?style=for-the-badge)
+
+### 🚀 Deploy
+
+![Railway](https://img.shields.io/badge/Railway-0B0D0E?style=for-the-badge&logo=railway&logoColor=white)
+![Vercel](https://img.shields.io/badge/Vercel-000000?style=for-the-badge&logo=vercel&logoColor=white)
+
+### 🧪 Test & Docs
+
+![JUnit 5](https://img.shields.io/badge/JUnit_5-25A162?style=for-the-badge&logo=junit5&logoColor=white)
+![Mockito](https://img.shields.io/badge/Mockito-78A641?style=for-the-badge)
+![Swagger](https://img.shields.io/badge/Swagger-85EA2D?style=for-the-badge&logo=swagger&logoColor=black)
+
+### 🔧 Tools
+
+![VS Code](https://img.shields.io/badge/VS_Code-007ACC?style=for-the-badge&logo=visualstudiocode&logoColor=white)
+![Git](https://img.shields.io/badge/Git-F05032?style=for-the-badge&logo=git&logoColor=white)
+![GitHub](https://img.shields.io/badge/GitHub-181717?style=for-the-badge&logo=github&logoColor=white)
 
 <br>
 
-## 아키텍처
+## 🏗 아키텍처
+
+![아키텍처](docs/architecture.jpg)
+
+<details>
+<summary>아키텍처 텍스트</summary>
 
 ```
 ┌─────────────────────────────────────────────────────────────────────┐
@@ -91,10 +118,10 @@ AI 기반 공간 예약 플랫폼
 │  └───────┬──────────────────────────────────────┬──────────────┘    │
 │          │ 비즈니스 규칙 검증                       │                 │
 │          ▼                                       ▼                  │
-│  ┌────────────────────┐    ┌──────────────────────┐  ┌───────────┐  │
-│  │  Repository Layer  │    │   Groq API (외부)    │  │Gmail SMTP │  │
-│  │  (Spring Data JPA) │    │   LLaMA 3.3 70B      │  │  (메일)   │  │
-│  └────────┬───────────┘    └──────────────────────┘  └───────────┘  │
+│  ┌────────────────────┐    ┌──────────────────────┐  ┌────────────┐ │
+│  │  Repository Layer  │    │   Groq API (외부)    │  │SendGrid API│ │
+│  │  (Spring Data JPA) │    │   LLaMA 3.3 70B      │  │   (메일)   │ │
+│  └────────┬───────────┘    └──────────────────────┘  └────────────┘ │
 │           │                                                         │
 └───────────┼─────────────────────────────────────────────────────────┘
             │
@@ -107,9 +134,11 @@ AI 기반 공간 예약 플랫폼
 └─────────────────────┘
 ```
 
+</details>
+
 <br>
 
-## 프로젝트 구조
+## 📁 프로젝트 구조
 
 ```
 spacebook/
@@ -143,7 +172,7 @@ spacebook/
 
 <br>
 
-## 주요 기능
+## ✨ 주요 기능
 
 ### 1. 인증/인가
 
@@ -165,10 +194,11 @@ spacebook/
 
 - 시간 단위 예약 (정시 기준)
 - 예약 시간 중복 검증 — 비관적 락(Pessimistic Lock)으로 동시성 제어
+- 현재 시간대 예약 차단 (이미 시작된 시간대는 예약 불가)
 - 날짜별 예약된 시간대 조회 API → 프론트엔드에서 시각적 표시
 - 예약 취소 (시작 1일 전까지)
 - 총 가격 자동 계산 (시간 × 시간당 가격)
-- 예약 생성/취소 시 이메일 알림 발송 (`@Async` 비동기 처리)
+- 예약 생성/취소 시 이메일 알림 발송 (SendGrid HTTP API, `@Async` 비동기 처리)
 
 ### 4. AI 공간 추천
 
@@ -185,7 +215,43 @@ spacebook/
 
 <br>
 
-## API 엔드포인트
+## 📡 API 엔드포인트
+
+### 공통 응답 형식
+
+모든 API는 `ApiResponse<T>` 래퍼로 응답합니다. `@JsonInclude(NON_NULL)` 적용으로 null 필드는 응답에서 제외됩니다.
+
+**성공 (데이터 반환)**
+
+```json
+{
+  "success": true,
+  "data": { ... },
+  "timestamp": "2026-02-27T10:00:00"
+}
+```
+
+**성공 (처리 완료)**
+
+```json
+{
+  "success": true,
+  "message": "예약이 취소되었습니다.",
+  "timestamp": "2026-02-27T10:00:00"
+}
+```
+
+**실패**
+
+```json
+{
+  "success": false,
+  "message": "에러 메시지",
+  "timestamp": "2026-02-27T10:00:00"
+}
+```
+
+---
 
 ### Auth
 
@@ -200,19 +266,12 @@ spacebook/
 <details>
 <summary>🔐 Auth API 상세</summary>
 
-#### 📩 회원가입
+#### 회원가입
 
-**📌 Request Header**
-
-| 파라미터 | 타입 | 필수 | 설명 |
-|----------|------|------|------|
-| Content-Type | String | Y | application/json |
-
-**🔐 Role Requirement**
-
-인증되지 않은 사용자 요청 가능 (비로그인 OK)
-
-**📌 Request Elements**
+```
+POST /api/v1/auth/signup
+Content-Type: application/json
+```
 
 | 파라미터 | 타입 | 필수 | 설명 |
 |----------|------|------|------|
@@ -221,179 +280,226 @@ spacebook/
 | password | String | Y | 비밀번호 (8자 이상, 영문+숫자+특수문자 포함) |
 | phoneNumber | String | Y | 전화번호 (형식: 010-XXXX-XXXX) |
 
-**요청 예시**
+**응답**
 
-```
-POST /api/v1/auth/signup
-Content-Type: application/json
+`201 Created`
 
+```json
 {
-  "username": "김지훈",
-  "email": "test@naver.com",
-  "password": "test1234!!",
-  "phoneNumber": "010-1234-5678"
+  "success": true,
+  "data": {
+    "accessToken": "eyJ...",
+    "refreshToken": "eyJ..."
+  },
+  "timestamp": "2026-02-27T10:00:00"
 }
 ```
 
-**📌 응답 표**
+`400 Bad Request` — 형식 오류
 
-| 코드 | 응답 (JSON) |
-|------|-------------|
-| 201 Created | `{ "success": true, "data": { "accessToken": "eyJ...", "refreshToken": "eyJ..." }, "timestamp": "..." }` |
-| 400 Bad Request (형식 오류) | `{ "success": false, "message": "올바른 이메일 형식이 아닙니다.", "data": null, "timestamp": "..." }` |
-| 409 Conflict (이메일 중복) | `{ "success": false, "message": "이미 사용 중인 이메일입니다.", "data": null, "timestamp": "..." }` |
+```json
+{
+  "success": false,
+  "message": "올바른 이메일 형식이 아닙니다.",
+  "timestamp": "2026-02-27T10:00:00"
+}
+```
+
+`409 Conflict` — 이메일 중복
+
+```json
+{
+  "success": false,
+  "message": "이미 사용 중인 이메일입니다.",
+  "timestamp": "2026-02-27T10:00:00"
+}
+```
 
 ---
 
-#### 📩 로그인
+#### 로그인
 
-**📌 Request Header**
-
-| 파라미터 | 타입 | 필수 | 설명 |
-|----------|------|------|------|
-| Content-Type | String | Y | application/json |
-
-**🔐 Role Requirement**
-
-인증되지 않은 사용자 요청 가능 (비로그인 OK)
-
-**📌 Request Elements**
+```
+POST /api/v1/auth/login
+Content-Type: application/json
+```
 
 | 파라미터 | 타입 | 필수 | 설명 |
 |----------|------|------|------|
 | email | String | Y | 이메일 |
 | password | String | Y | 비밀번호 |
 
-**요청 예시**
+**응답**
 
-```
-POST /api/v1/auth/login
-Content-Type: application/json
+`200 OK`
 
+```json
 {
-  "email": "test@naver.com",
-  "password": "test1234!!"
+  "success": true,
+  "data": {
+    "accessToken": "eyJ...",
+    "refreshToken": "eyJ..."
+  },
+  "timestamp": "2026-02-27T10:00:00"
 }
 ```
 
-**📌 응답 표**
+`401 Unauthorized` — 인증 실패
 
-| 코드 | 응답 (JSON) |
-|------|-------------|
-| 200 OK | `{ "success": true, "data": { "accessToken": "eyJ...", "refreshToken": "eyJ..." }, "timestamp": "..." }` |
-| 401 Unauthorized (인증 실패) | `{ "success": false, "message": "이메일 또는 비밀번호가 올바르지 않습니다.", "data": null, "timestamp": "..." }` |
-| 410 Gone (탈퇴 계정) | `{ "success": false, "message": "탈퇴한 계정입니다.", "data": null, "timestamp": "..." }` |
+```json
+{
+  "success": false,
+  "message": "이메일 또는 비밀번호가 올바르지 않습니다.",
+  "timestamp": "2026-02-27T10:00:00"
+}
+```
+
+`410 Gone` — 탈퇴 계정
+
+```json
+{
+  "success": false,
+  "message": "탈퇴한 계정입니다.",
+  "timestamp": "2026-02-27T10:00:00"
+}
+```
 
 ---
 
-#### 📩 로그아웃
-
-**📌 Request Header**
-
-| 파라미터 | 타입 | 필수 | 설명 |
-|----------|------|------|------|
-| Authorization | String | Y | Bearer {accessToken} |
-
-**🔐 Role Requirement**
-
-로그인된 사용자 (USER / ADMIN)
-
-**요청 예시**
+#### 로그아웃
 
 ```
 POST /api/v1/auth/logout
-Authorization: Bearer eyJ...
+Authorization: Bearer {accessToken}
 ```
 
-**📌 응답 표**
+**응답**
 
-| 코드 | 응답 (JSON) |
-|------|-------------|
-| 200 OK | `{ "success": true, "message": "로그아웃 되었습니다.", "timestamp": "..." }` |
-| 401 Unauthorized | `{ "success": false, "message": "로그인 후 진행해주세요.", "data": null, "timestamp": "..." }` |
+`200 OK`
+
+```json
+{
+  "success": true,
+  "timestamp": "2026-02-27T10:00:00"
+}
+```
+
+`401 Unauthorized`
+
+```json
+{
+  "success": false,
+  "message": "로그인 후 진행해주세요.",
+  "timestamp": "2026-02-27T10:00:00"
+}
+```
 
 ---
 
-#### 📩 토큰 재발급
+#### 토큰 재발급
 
-**📌 Request Header**
-
-| 파라미터 | 타입 | 필수 | 설명 |
-|----------|------|------|------|
-| Content-Type | String | Y | application/json |
-
-**🔐 Role Requirement**
-
-인증되지 않은 사용자 요청 가능 (비로그인 OK)
-
-**📌 Request Elements**
+```
+POST /api/v1/auth/reissue
+Content-Type: application/json
+```
 
 | 파라미터 | 타입 | 필수 | 설명 |
 |----------|------|------|------|
 | refreshToken | String | Y | 리프레시 토큰 |
 
-**요청 예시**
+**응답**
 
-```
-POST /api/v1/auth/reissue
-Content-Type: application/json
+`200 OK`
 
+```json
 {
-  "refreshToken": "eyJ..."
+  "success": true,
+  "data": {
+    "accessToken": "eyJ...",
+    "refreshToken": "eyJ..."
+  },
+  "timestamp": "2026-02-27T10:00:00"
 }
 ```
 
-**📌 응답 표**
+`401 Unauthorized` — 유효하지 않은 토큰
 
-| 코드 | 응답 (JSON) |
-|------|-------------|
-| 200 OK | `{ "success": true, "data": { "accessToken": "eyJ...", "refreshToken": "eyJ..." }, "timestamp": "..." }` |
-| 401 Unauthorized (유효하지 않음) | `{ "success": false, "message": "유효하지 않은 리프레시 토큰입니다.", "data": null, "timestamp": "..." }` |
-| 401 Unauthorized (만료) | `{ "success": false, "message": "만료된 리프레시 토큰입니다.", "data": null, "timestamp": "..." }` |
-| 401 Unauthorized (폐기) | `{ "success": false, "message": "폐기된 리프레시 토큰입니다.", "data": null, "timestamp": "..." }` |
+```json
+{
+  "success": false,
+  "message": "유효하지 않은 리프레시 토큰입니다.",
+  "timestamp": "2026-02-27T10:00:00"
+}
+```
+
+`401 Unauthorized` — 만료된 토큰
+
+```json
+{
+  "success": false,
+  "message": "만료된 리프레시 토큰입니다.",
+  "timestamp": "2026-02-27T10:00:00"
+}
+```
+
+`401 Unauthorized` — 폐기된 토큰
+
+```json
+{
+  "success": false,
+  "message": "폐기된 리프레시 토큰입니다.",
+  "timestamp": "2026-02-27T10:00:00"
+}
+```
 
 ---
 
-#### 📩 회원 탈퇴
+#### 회원 탈퇴
 
-**📌 Request Header**
-
-| 파라미터 | 타입 | 필수 | 설명 |
-|----------|------|------|------|
-| Authorization | String | Y | Bearer {accessToken} |
-| Content-Type | String | Y | application/json |
-
-**🔐 Role Requirement**
-
-로그인된 사용자 (USER / ADMIN)
-
-**📌 Request Elements**
+```
+DELETE /api/v1/auth/withdraw
+Authorization: Bearer {accessToken}
+Content-Type: application/json
+```
 
 | 파라미터 | 타입 | 필수 | 설명 |
 |----------|------|------|------|
 | password | String | Y | 현재 비밀번호 (확인용) |
 
-**요청 예시**
+**응답**
 
-```
-DELETE /api/v1/auth/withdraw
-Authorization: Bearer eyJ...
-Content-Type: application/json
+`200 OK`
 
+```json
 {
-  "password": "test1234!!"
+  "success": true,
+  "timestamp": "2026-02-27T10:00:00"
 }
 ```
 
-**📌 응답 표**
+`400 Bad Request` — 비밀번호 불일치
 
-| 코드 | 응답 (JSON) |
-|------|-------------|
-| 200 OK | `{ "success": true, "message": "회원 탈퇴가 완료되었습니다.", "timestamp": "..." }` |
-| 400 Bad Request (비밀번호 불일치) | `{ "success": false, "message": "비밀번호가 일치하지 않습니다.", "data": null, "timestamp": "..." }` |
-| 409 Conflict (예약 존재) | `{ "success": false, "message": "확정된 예약이 존재하여 탈퇴할 수 없습니다.", "data": null, "timestamp": "..." }` |
+```json
+{
+  "success": false,
+  "message": "비밀번호가 일치하지 않습니다.",
+  "timestamp": "2026-02-27T10:00:00"
+}
+```
+
+`409 Conflict` — 확정 예약 존재
+
+```json
+{
+  "success": false,
+  "message": "확정된 예약이 존재하여 탈퇴할 수 없습니다.",
+  "timestamp": "2026-02-27T10:00:00"
+}
+```
 
 </details>
+
+---
 
 ### Space
 
@@ -410,13 +516,11 @@ Content-Type: application/json
 <details>
 <summary>📍 Space API 상세</summary>
 
-#### 📩 공간 목록 조회
+#### 공간 목록 조회
 
-**🔐 Role Requirement**
-
-인증되지 않은 사용자 요청 가능 (비로그인 OK)
-
-**📌 Query Parameters**
+```
+GET /api/v1/spaces?location=강남&spaceType=STUDY&sort=pricePerHour,asc&page=0&size=10
+```
 
 | 파라미터 | 타입 | 필수 | 설명 |
 |----------|------|------|------|
@@ -428,82 +532,123 @@ Content-Type: application/json
 | size | Integer | N | 페이지 크기 (기본: 10) |
 | sort | String | N | 정렬 (기본: createdAt,desc) |
 
-**요청 예시**
+**응답**
 
+`200 OK`
+
+```json
+{
+  "success": true,
+  "data": {
+    "content": [
+      {
+        "id": 1,
+        "spaceName": "스터디카페 A",
+        "spaceType": "STUDY",
+        "capacity": 10,
+        "location": "강남",
+        "pricePerHour": 5000,
+        "imageUrl": "https://..."
+      }
+    ],
+    "totalElements": 1,
+    "totalPages": 1,
+    "number": 0,
+    "size": 10
+  },
+  "timestamp": "2026-02-27T10:00:00"
+}
 ```
-GET /api/v1/spaces?location=강남&spaceType=STUDY&sort=pricePerHour,asc&page=0&size=10
+
+`400 Bad Request` — 가격 범위 오류
+
+```json
+{
+  "success": false,
+  "message": "최소 가격이 최대 가격보다 클 수 없습니다.",
+  "timestamp": "2026-02-27T10:00:00"
+}
 ```
-
-**📌 응답 표**
-
-| 코드 | 응답 (JSON) |
-|------|-------------|
-| 200 OK | `{ "success": true, "data": { "content": [{ "id": 1, "spaceName": "스터디카페 A", "spaceType": "STUDY", "capacity": 10, "location": "강남", "pricePerHour": 5000, "imageUrl": "https://..." }], "totalElements": 1, ... }, "timestamp": "..." }` |
-| 400 Bad Request (가격 범위) | `{ "success": false, "message": "최소 가격이 최대 가격보다 클 수 없습니다.", "data": null, "timestamp": "..." }` |
 
 ---
 
-#### 📩 공간 상세 조회
-
-**🔐 Role Requirement**
-
-인증되지 않은 사용자 요청 가능 (비로그인 OK)
-
-**요청 예시**
+#### 공간 상세 조회
 
 ```
 GET /api/v1/spaces/1
 ```
 
-**📌 응답 표**
+**응답**
 
-| 코드 | 응답 (JSON) |
-|------|-------------|
-| 200 OK | `{ "success": true, "data": { "id": 1, "spaceName": "스터디카페 A", "description": "...", "imageUrl": "https://...", "spaceType": "STUDY", "pricePerHour": 5000, "location": "강남", "capacity": 10, "spaceStatus": "OPEN", "ownerId": 1, "createdAt": "...", "updatedAt": "..." }, "timestamp": "..." }` |
-| 404 Not Found | `{ "success": false, "message": "공간을 찾을 수 없습니다.", "data": null, "timestamp": "..." }` |
+`200 OK`
+
+```json
+{
+  "success": true,
+  "data": {
+    "id": 1,
+    "spaceName": "스터디카페 A",
+    "description": "조용한 스터디 공간입니다.",
+    "imageUrl": "https://...",
+    "spaceType": "STUDY",
+    "pricePerHour": 5000,
+    "location": "강남",
+    "capacity": 10,
+    "spaceStatus": "OPEN",
+    "ownerId": 1,
+    "createdAt": "2026-02-27T10:00:00",
+    "updatedAt": "2026-02-27T10:00:00"
+  },
+  "timestamp": "2026-02-27T10:00:00"
+}
+```
+
+`404 Not Found`
+
+```json
+{
+  "success": false,
+  "message": "공간을 찾을 수 없습니다.",
+  "timestamp": "2026-02-27T10:00:00"
+}
+```
 
 ---
 
-#### 📩 예약된 시간대 조회
-
-**🔐 Role Requirement**
-
-인증되지 않은 사용자 요청 가능 (비로그인 OK)
-
-**📌 Query Parameters**
-
-| 파라미터 | 타입 | 필수 | 설명 |
-|----------|------|------|------|
-| date | String | Y | 조회할 날짜 (yyyy-MM-dd) |
-
-**요청 예시**
+#### 예약된 시간대 조회
 
 ```
 GET /api/v1/spaces/1/reserved-times?date=2026-03-01
 ```
 
-**📌 응답 표**
+| 파라미터 | 타입 | 필수 | 설명 |
+|----------|------|------|------|
+| date | String | Y | 조회할 날짜 (yyyy-MM-dd) |
 
-| 코드 | 응답 (JSON) |
-|------|-------------|
-| 200 OK | `{ "success": true, "data": [{ "startHour": 10, "endHour": 12 }, { "startHour": 14, "endHour": 16 }], "timestamp": "..." }` |
+**응답**
+
+`200 OK`
+
+```json
+{
+  "success": true,
+  "data": [
+    { "startHour": 10, "endHour": 12 },
+    { "startHour": 14, "endHour": 16 }
+  ],
+  "timestamp": "2026-02-27T10:00:00"
+}
+```
 
 ---
 
-#### 📩 공간 등록
+#### 공간 등록
 
-**📌 Request Header**
-
-| 파라미터 | 타입 | 필수 | 설명 |
-|----------|------|------|------|
-| Authorization | String | Y | Bearer {accessToken} |
-| Content-Type | String | Y | application/json |
-
-**🔐 Role Requirement**
-
-ADMIN 권한 필수
-
-**📌 Request Elements**
+```
+POST /api/v1/spaces
+Authorization: Bearer {accessToken}
+Content-Type: application/json
+```
 
 | 파라미터 | 타입 | 필수 | 설명 |
 |----------|------|------|------|
@@ -515,48 +660,60 @@ ADMIN 권한 필수
 | location | String | Y | 위치 |
 | capacity | Integer | Y | 수용 인원 (0보다 큼) |
 
-**요청 예시**
+**응답**
 
-```
-POST /api/v1/spaces
-Authorization: Bearer eyJ...
-Content-Type: application/json
+`201 Created`
 
+```json
 {
-  "spaceName": "스터디카페 A",
-  "description": "조용한 스터디 공간입니다.",
-  "imageUrl": "https://example.com/image.jpg",
-  "spaceType": "STUDY",
-  "pricePerHour": 5000,
-  "location": "서울 강남구",
-  "capacity": 10
+  "success": true,
+  "data": {
+    "id": 1,
+    "spaceName": "스터디카페 A",
+    "description": "조용한 스터디 공간입니다.",
+    "imageUrl": "https://...",
+    "spaceType": "STUDY",
+    "pricePerHour": 5000,
+    "location": "서울 강남구",
+    "capacity": 10,
+    "spaceStatus": "OPEN",
+    "ownerId": 1,
+    "createdAt": "2026-02-27T10:00:00",
+    "updatedAt": "2026-02-27T10:00:00"
+  },
+  "timestamp": "2026-02-27T10:00:00"
 }
 ```
 
-**📌 응답 표**
+`400 Bad Request` — 형식 오류
 
-| 코드 | 응답 (JSON) |
-|------|-------------|
-| 201 Created | `{ "success": true, "data": { "id": 1, "spaceName": "스터디카페 A", ... }, "timestamp": "..." }` |
-| 400 Bad Request (형식 오류) | `{ "success": false, "message": "공간 이름은 필수입니다.", "data": null, "timestamp": "..." }` |
-| 403 Forbidden (권한 없음) | `{ "success": false, "message": "해당 리소스에 접근할 권한이 없습니다.", "data": null, "timestamp": "..." }` |
+```json
+{
+  "success": false,
+  "message": "공간 이름은 필수입니다.",
+  "timestamp": "2026-02-27T10:00:00"
+}
+```
+
+`403 Forbidden` — 권한 없음
+
+```json
+{
+  "success": false,
+  "message": "해당 리소스에 접근할 권한이 없습니다.",
+  "timestamp": "2026-02-27T10:00:00"
+}
+```
 
 ---
 
-#### 📩 공간 수정
+#### 공간 수정
 
-**📌 Request Header**
-
-| 파라미터 | 타입 | 필수 | 설명 |
-|----------|------|------|------|
-| Authorization | String | Y | Bearer {accessToken} |
-| Content-Type | String | Y | application/json |
-
-**🔐 Role Requirement**
-
-ADMIN 권한 필수
-
-**📌 Request Elements (모든 필드 선택사항, null이면 기존 값 유지)**
+```
+PATCH /api/v1/spaces/1
+Authorization: Bearer {accessToken}
+Content-Type: application/json
+```
 
 | 파라미터 | 타입 | 필수 | 설명 |
 |----------|------|------|------|
@@ -569,55 +726,69 @@ ADMIN 권한 필수
 | capacity | Integer | N | 수용 인원 (0보다 큼) |
 | spaceStatus | String | N | 공간 상태 (OPEN / CLOSED) |
 
-**요청 예시**
+> 모든 필드 선택사항 — null이면 기존 값 유지
 
-```
-PATCH /api/v1/spaces/1
-Authorization: Bearer eyJ...
-Content-Type: application/json
+**응답**
 
+`200 OK`
+
+```json
 {
-  "pricePerHour": 6000,
-  "spaceStatus": "CLOSED"
+  "success": true,
+  "data": {
+    "id": 1,
+    "spaceName": "스터디카페 A",
+    "pricePerHour": 6000,
+    "spaceStatus": "CLOSED",
+    "...": "..."
+  },
+  "timestamp": "2026-02-27T10:00:00"
 }
 ```
 
-**📌 응답 표**
+`404 Not Found`
 
-| 코드 | 응답 (JSON) |
-|------|-------------|
-| 200 OK | `{ "success": true, "data": { "id": 1, "pricePerHour": 6000, "spaceStatus": "CLOSED", ... }, "timestamp": "..." }` |
-| 404 Not Found | `{ "success": false, "message": "공간을 찾을 수 없습니다.", "data": null, "timestamp": "..." }` |
+```json
+{
+  "success": false,
+  "message": "공간을 찾을 수 없습니다.",
+  "timestamp": "2026-02-27T10:00:00"
+}
+```
 
 ---
 
-#### 📩 공간 삭제
-
-**📌 Request Header**
-
-| 파라미터 | 타입 | 필수 | 설명 |
-|----------|------|------|------|
-| Authorization | String | Y | Bearer {accessToken} |
-
-**🔐 Role Requirement**
-
-ADMIN 권한 필수
-
-**요청 예시**
+#### 공간 삭제
 
 ```
 DELETE /api/v1/spaces/1
-Authorization: Bearer eyJ...
+Authorization: Bearer {accessToken}
 ```
 
-**📌 응답 표**
+**응답**
 
-| 코드 | 응답 (JSON) |
-|------|-------------|
-| 200 OK | `{ "success": true, "message": "공간이 삭제되었습니다.", "timestamp": "..." }` |
-| 404 Not Found | `{ "success": false, "message": "공간을 찾을 수 없습니다.", "data": null, "timestamp": "..." }` |
+`200 OK`
+
+```json
+{
+  "success": true,
+  "timestamp": "2026-02-27T10:00:00"
+}
+```
+
+`404 Not Found`
+
+```json
+{
+  "success": false,
+  "message": "공간을 찾을 수 없습니다.",
+  "timestamp": "2026-02-27T10:00:00"
+}
+```
 
 </details>
+
+---
 
 ### Reservation
 
@@ -631,20 +802,13 @@ Authorization: Bearer eyJ...
 <details>
 <summary>📅 Reservation API 상세</summary>
 
-#### 📩 예약 생성
+#### 예약 생성
 
-**📌 Request Header**
-
-| 파라미터 | 타입 | 필수 | 설명 |
-|----------|------|------|------|
-| Authorization | String | Y | Bearer {accessToken} |
-| Content-Type | String | Y | application/json |
-
-**🔐 Role Requirement**
-
-로그인된 사용자 (USER / ADMIN)
-
-**📌 Request Elements**
+```
+POST /api/v1/reservations
+Authorization: Bearer {accessToken}
+Content-Type: application/json
+```
 
 | 파라미터 | 타입 | 필수 | 설명 |
 |----------|------|------|------|
@@ -654,128 +818,247 @@ Authorization: Bearer eyJ...
 | peopleCount | Integer | Y | 인원 수 (0보다 큼, 공간 수용 인원 이하) |
 | purpose | String | N | 예약 목적 |
 
-**요청 예시**
+**응답**
 
-```
-POST /api/v1/reservations
-Authorization: Bearer eyJ...
-Content-Type: application/json
+`201 Created`
 
+```json
 {
-  "spaceId": 1,
-  "startTime": "2026-03-01T10:00:00",
-  "endTime": "2026-03-01T12:00:00",
-  "peopleCount": 5,
-  "purpose": "팀 스터디"
+  "success": true,
+  "data": {
+    "id": 1,
+    "spaceId": 1,
+    "spaceName": "스터디카페 A",
+    "startTime": "2026-03-01T10:00:00",
+    "endTime": "2026-03-01T12:00:00",
+    "peopleCount": 5,
+    "totalPrice": 10000,
+    "purpose": "팀 스터디",
+    "status": "CONFIRMED",
+    "createdAt": "2026-02-27T10:00:00"
+  },
+  "timestamp": "2026-02-27T10:00:00"
 }
 ```
 
-**📌 응답 표**
+`400 Bad Request` — 정시 아님
 
-| 코드 | 응답 (JSON) |
-|------|-------------|
-| 201 Created | `{ "success": true, "data": { "id": 1, "spaceId": 1, "spaceName": "스터디카페 A", "startTime": "2026-03-01T10:00:00", "endTime": "2026-03-01T12:00:00", "peopleCount": 5, "totalPrice": 10000, "purpose": "팀 스터디", "status": "CONFIRMED", ... }, "timestamp": "..." }` |
-| 400 Bad Request (정시 아님) | `{ "success": false, "message": "예약은 정각 단위로만 가능합니다.", "data": null, "timestamp": "..." }` |
-| 400 Bad Request (시간 역전) | `{ "success": false, "message": "예약 종료 시간은 시작 시간 이후여야 합니다.", "data": null, "timestamp": "..." }` |
-| 400 Bad Request (과거 시간) | `{ "success": false, "message": "과거 시간으로는 예약할 수 없습니다.", "data": null, "timestamp": "..." }` |
-| 400 Bad Request (인원 초과) | `{ "success": false, "message": "예약 인원이 공간 최대 수용 인원을 초과합니다.", "data": null, "timestamp": "..." }` |
-| 400 Bad Request (공간 닫힘) | `{ "success": false, "message": "현재 대여가 불가능한 공간입니다.", "data": null, "timestamp": "..." }` |
-| 409 Conflict (시간 중복) | `{ "success": false, "message": "해당 시간대에 이미 예약이 존재합니다.", "data": null, "timestamp": "..." }` |
+```json
+{
+  "success": false,
+  "message": "예약은 정각 단위로만 가능합니다.",
+  "timestamp": "2026-02-27T10:00:00"
+}
+```
+
+`400 Bad Request` — 시간 역전
+
+```json
+{
+  "success": false,
+  "message": "예약 종료 시간은 시작 시간 이후여야 합니다.",
+  "timestamp": "2026-02-27T10:00:00"
+}
+```
+
+`400 Bad Request` — 과거 시간
+
+```json
+{
+  "success": false,
+  "message": "과거 시간으로는 예약할 수 없습니다.",
+  "timestamp": "2026-02-27T10:00:00"
+}
+```
+
+`400 Bad Request` — 현재 시간대
+
+```json
+{
+  "success": false,
+  "message": "현재 시간대는 예약할 수 없습니다.",
+  "timestamp": "2026-02-27T10:00:00"
+}
+```
+
+`400 Bad Request` — 인원 초과
+
+```json
+{
+  "success": false,
+  "message": "예약 인원이 공간 최대 수용 인원을 초과합니다.",
+  "timestamp": "2026-02-27T10:00:00"
+}
+```
+
+`400 Bad Request` — 공간 닫힘
+
+```json
+{
+  "success": false,
+  "message": "현재 대여가 불가능한 공간입니다.",
+  "timestamp": "2026-02-27T10:00:00"
+}
+```
+
+`409 Conflict` — 시간 중복
+
+```json
+{
+  "success": false,
+  "message": "해당 시간대에 이미 예약이 존재합니다.",
+  "timestamp": "2026-02-27T10:00:00"
+}
+```
 
 ---
 
-#### 📩 내 예약 목록 조회
+#### 내 예약 목록 조회
 
-**📌 Request Header**
-
-| 파라미터 | 타입 | 필수 | 설명 |
-|----------|------|------|------|
-| Authorization | String | Y | Bearer {accessToken} |
-
-**🔐 Role Requirement**
-
-로그인된 사용자 (USER / ADMIN)
-
-**📌 Query Parameters**
+```
+GET /api/v1/reservations/my?page=0&size=10
+Authorization: Bearer {accessToken}
+```
 
 | 파라미터 | 타입 | 필수 | 설명 |
 |----------|------|------|------|
 | page | Integer | N | 페이지 번호 (기본: 0) |
 | size | Integer | N | 페이지 크기 (기본: 10) |
 
-**요청 예시**
+**응답**
 
+`200 OK`
+
+```json
+{
+  "success": true,
+  "data": {
+    "content": [
+      {
+        "id": 1,
+        "spaceId": 1,
+        "spaceName": "스터디카페 A",
+        "startTime": "2026-03-01T10:00:00",
+        "endTime": "2026-03-01T12:00:00",
+        "status": "CONFIRMED"
+      }
+    ],
+    "totalElements": 1,
+    "totalPages": 1,
+    "number": 0,
+    "size": 10
+  },
+  "timestamp": "2026-02-27T10:00:00"
+}
 ```
-GET /api/v1/reservations/my?page=0&size=10
-Authorization: Bearer eyJ...
-```
-
-**📌 응답 표**
-
-| 코드 | 응답 (JSON) |
-|------|-------------|
-| 200 OK | `{ "success": true, "data": { "content": [{ "id": 1, "spaceId": 1, "spaceName": "스터디카페 A", "startTime": "...", "endTime": "...", "status": "CONFIRMED" }], "totalElements": 1, ... }, "timestamp": "..." }` |
 
 ---
 
-#### 📩 예약 상세 조회
-
-**📌 Request Header**
-
-| 파라미터 | 타입 | 필수 | 설명 |
-|----------|------|------|------|
-| Authorization | String | Y | Bearer {accessToken} |
-
-**🔐 Role Requirement**
-
-로그인된 사용자 (본인 예약만 조회 가능)
-
-**요청 예시**
+#### 예약 상세 조회
 
 ```
 GET /api/v1/reservations/1
-Authorization: Bearer eyJ...
+Authorization: Bearer {accessToken}
 ```
 
-**📌 응답 표**
+**응답**
 
-| 코드 | 응답 (JSON) |
-|------|-------------|
-| 200 OK | `{ "success": true, "data": { "id": 1, "spaceId": 1, "spaceName": "스터디카페 A", "userId": 1, "startTime": "2026-03-01T10:00:00", "endTime": "2026-03-01T12:00:00", "peopleCount": 5, "totalPrice": 10000, "purpose": "팀 스터디", "status": "CONFIRMED", "createdAt": "..." }, "timestamp": "..." }` |
-| 403 Forbidden (타인 예약) | `{ "success": false, "message": "본인의 예약만 접근할 수 있습니다.", "data": null, "timestamp": "..." }` |
-| 404 Not Found | `{ "success": false, "message": "예약을 찾을 수 없습니다.", "data": null, "timestamp": "..." }` |
+`200 OK`
+
+```json
+{
+  "success": true,
+  "data": {
+    "id": 1,
+    "spaceId": 1,
+    "spaceName": "스터디카페 A",
+    "userId": 1,
+    "startTime": "2026-03-01T10:00:00",
+    "endTime": "2026-03-01T12:00:00",
+    "peopleCount": 5,
+    "totalPrice": 10000,
+    "purpose": "팀 스터디",
+    "status": "CONFIRMED",
+    "createdAt": "2026-02-27T10:00:00"
+  },
+  "timestamp": "2026-02-27T10:00:00"
+}
+```
+
+`403 Forbidden` — 타인 예약
+
+```json
+{
+  "success": false,
+  "message": "본인의 예약만 접근할 수 있습니다.",
+  "timestamp": "2026-02-27T10:00:00"
+}
+```
+
+`404 Not Found`
+
+```json
+{
+  "success": false,
+  "message": "예약을 찾을 수 없습니다.",
+  "timestamp": "2026-02-27T10:00:00"
+}
+```
 
 ---
 
-#### 📩 예약 취소
-
-**📌 Request Header**
-
-| 파라미터 | 타입 | 필수 | 설명 |
-|----------|------|------|------|
-| Authorization | String | Y | Bearer {accessToken} |
-
-**🔐 Role Requirement**
-
-로그인된 사용자 (본인 예약만 취소 가능)
-
-**요청 예시**
+#### 예약 취소
 
 ```
 PATCH /api/v1/reservations/1/cancel
-Authorization: Bearer eyJ...
+Authorization: Bearer {accessToken}
 ```
 
-**📌 응답 표**
+**응답**
 
-| 코드 | 응답 (JSON) |
-|------|-------------|
-| 200 OK | `{ "success": true, "message": "예약이 취소되었습니다.", "timestamp": "..." }` |
-| 400 Bad Request (이미 취소) | `{ "success": false, "message": "이미 취소된 예약입니다.", "data": null, "timestamp": "..." }` |
-| 400 Bad Request (기한 초과) | `{ "success": false, "message": "예약일 하루 전까지만 취소할 수 있습니다.", "data": null, "timestamp": "..." }` |
-| 403 Forbidden (타인 예약) | `{ "success": false, "message": "본인의 예약만 접근할 수 있습니다.", "data": null, "timestamp": "..." }` |
+`200 OK`
+
+```json
+{
+  "success": true,
+  "message": "예약이 취소되었습니다.",
+  "timestamp": "2026-02-27T10:00:00"
+}
+```
+
+`400 Bad Request` — 이미 취소
+
+```json
+{
+  "success": false,
+  "message": "이미 취소된 예약입니다.",
+  "timestamp": "2026-02-27T10:00:00"
+}
+```
+
+`400 Bad Request` — 기한 초과
+
+```json
+{
+  "success": false,
+  "message": "예약일 하루 전까지만 취소할 수 있습니다.",
+  "timestamp": "2026-02-27T10:00:00"
+}
+```
+
+`403 Forbidden` — 타인 예약
+
+```json
+{
+  "success": false,
+  "message": "본인의 예약만 접근할 수 있습니다.",
+  "timestamp": "2026-02-27T10:00:00"
+}
+```
 
 </details>
+
+---
 
 ### User
 
@@ -787,47 +1070,40 @@ Authorization: Bearer eyJ...
 <details>
 <summary>👤 User API 상세</summary>
 
-#### 📩 내 정보 조회
-
-**📌 Request Header**
-
-| 파라미터 | 타입 | 필수 | 설명 |
-|----------|------|------|------|
-| Authorization | String | Y | Bearer {accessToken} |
-
-**🔐 Role Requirement**
-
-로그인된 사용자 (USER / ADMIN)
-
-**요청 예시**
+#### 내 정보 조회
 
 ```
 GET /api/v1/users/me
-Authorization: Bearer eyJ...
+Authorization: Bearer {accessToken}
 ```
 
-**📌 응답 표**
+**응답**
 
-| 코드 | 응답 (JSON) |
-|------|-------------|
-| 200 OK | `{ "success": true, "data": { "id": 1, "username": "김지훈", "email": "test@naver.com", "phoneNumber": "010-1234-5678", "createdAt": "..." }, "timestamp": "..." }` |
+`200 OK`
+
+```json
+{
+  "success": true,
+  "data": {
+    "id": 1,
+    "username": "김지훈",
+    "email": "test@naver.com",
+    "phoneNumber": "010-1234-5678",
+    "createdAt": "2026-02-27T10:00:00"
+  },
+  "timestamp": "2026-02-27T10:00:00"
+}
+```
 
 ---
 
-#### 📩 내 정보 수정
+#### 내 정보 수정
 
-**📌 Request Header**
-
-| 파라미터 | 타입 | 필수 | 설명 |
-|----------|------|------|------|
-| Authorization | String | Y | Bearer {accessToken} |
-| Content-Type | String | Y | application/json |
-
-**🔐 Role Requirement**
-
-로그인된 사용자 (USER / ADMIN)
-
-**📌 Request Elements (모든 필드 선택사항, null이면 기존 값 유지)**
+```
+PATCH /api/v1/users/me
+Authorization: Bearer {accessToken}
+Content-Type: application/json
+```
 
 | 파라미터 | 타입 | 필수 | 설명 |
 |----------|------|------|------|
@@ -835,13 +1111,11 @@ Authorization: Bearer eyJ...
 | currentPassword | String | N | 현재 비밀번호 (비밀번호 변경 시 필수) |
 | newPassword | String | N | 새 비밀번호 (8자 이상, 영문+숫자+특수문자 포함) |
 
+> 모든 필드 선택사항 — null이면 기존 값 유지
+
 **요청 예시 — 전화번호 변경**
 
-```
-PATCH /api/v1/users/me
-Authorization: Bearer eyJ...
-Content-Type: application/json
-
+```json
 {
   "phoneNumber": "010-9999-8888"
 }
@@ -849,27 +1123,64 @@ Content-Type: application/json
 
 **요청 예시 — 비밀번호 변경**
 
-```
-PATCH /api/v1/users/me
-Authorization: Bearer eyJ...
-Content-Type: application/json
-
+```json
 {
   "currentPassword": "test1234!!",
   "newPassword": "newpass1234!!"
 }
 ```
 
-**📌 응답 표**
+**응답**
 
-| 코드 | 응답 (JSON) |
-|------|-------------|
-| 200 OK | `{ "success": true, "data": { "id": 1, "username": "김지훈", "email": "test@naver.com", "phoneNumber": "010-9999-8888", "createdAt": "..." }, "timestamp": "..." }` |
-| 400 Bad Request (불완전) | `{ "success": false, "message": "비밀번호 변경 시 현재 비밀번호와 새 비밀번호를 모두 입력해야 합니다.", "data": null, "timestamp": "..." }` |
-| 400 Bad Request (동일) | `{ "success": false, "message": "새 비밀번호가 현재 비밀번호와 동일합니다.", "data": null, "timestamp": "..." }` |
-| 400 Bad Request (불일치) | `{ "success": false, "message": "비밀번호가 일치하지 않습니다.", "data": null, "timestamp": "..." }` |
+`200 OK`
+
+```json
+{
+  "success": true,
+  "data": {
+    "id": 1,
+    "username": "김지훈",
+    "email": "test@naver.com",
+    "phoneNumber": "010-9999-8888",
+    "createdAt": "2026-02-27T10:00:00"
+  },
+  "timestamp": "2026-02-27T10:00:00"
+}
+```
+
+`400 Bad Request` — 불완전 입력
+
+```json
+{
+  "success": false,
+  "message": "비밀번호 변경 시 현재 비밀번호와 새 비밀번호를 모두 입력해야 합니다.",
+  "timestamp": "2026-02-27T10:00:00"
+}
+```
+
+`400 Bad Request` — 동일 비밀번호
+
+```json
+{
+  "success": false,
+  "message": "새 비밀번호가 현재 비밀번호와 동일합니다.",
+  "timestamp": "2026-02-27T10:00:00"
+}
+```
+
+`400 Bad Request` — 비밀번호 불일치
+
+```json
+{
+  "success": false,
+  "message": "비밀번호가 일치하지 않습니다.",
+  "timestamp": "2026-02-27T10:00:00"
+}
+```
 
 </details>
+
+---
 
 ### Recommendation
 
@@ -880,20 +1191,13 @@ Content-Type: application/json
 <details>
 <summary>🤖 Recommendation API 상세</summary>
 
-#### 📩 AI 공간 추천
+#### AI 공간 추천
 
-**📌 Request Header**
-
-| 파라미터 | 타입 | 필수 | 설명 |
-|----------|------|------|------|
-| Authorization | String | Y | Bearer {accessToken} |
-| Content-Type | String | Y | application/json |
-
-**🔐 Role Requirement**
-
-로그인된 사용자 (USER / ADMIN)
-
-**📌 Request Elements**
+```
+POST /api/v1/recommendations
+Authorization: Bearer {accessToken}
+Content-Type: application/json
+```
 
 | 파라미터 | 타입 | 필수 | 설명 |
 |----------|------|------|------|
@@ -901,39 +1205,74 @@ Content-Type: application/json
 
 **요청 예시**
 
-```
-POST /api/v1/recommendations
-Authorization: Bearer eyJ...
-Content-Type: application/json
-
+```json
 {
   "query": "강남에서 10명이 파티할 수 있는 곳"
 }
 ```
 
-**📌 LLM 추출 조건 (내부 처리)**
+**LLM 내부 추출 조건**
 
-| 조건 | 타입 | 설명 | 예시 값 |
-|------|------|------|---------|
+| 조건 | 타입 | 설명 | 예시 |
+|------|------|------|------|
 | location | String \| null | 지역 | "강남" |
 | capacity | Integer \| null | 인원 | 10 |
 | spaceType | String \| null | 공간 유형 (STUDY / PARTY / MEETING) | "PARTY" |
 
 > 3개 조건 중 null 값이 있어도 나머지 조건만으로 검색 가능
 
-**📌 응답 표**
+**응답**
 
-| 코드 | 응답 (JSON) |
-|------|-------------|
-| 200 OK | `{ "success": true, "data": [{ "id": 1, "spaceName": "파티룸 B", "spaceType": "PARTY", "capacity": 20, "location": "강남", "pricePerHour": 30000, "imageUrl": "https://..." }], "timestamp": "..." }` |
-| 400 Bad Request (파싱 실패) | `{ "success": false, "message": "검색 조건을 추출할 수 없습니다. 다시 입력해주세요.", "data": null, "timestamp": "..." }` |
-| 503 Service Unavailable (AI 오류) | `{ "success": false, "message": "AI 서비스에 일시적인 문제가 발생했습니다.", "data": null, "timestamp": "..." }` |
+`200 OK`
+
+```json
+{
+  "success": true,
+  "data": [
+    {
+      "id": 1,
+      "spaceName": "파티룸 B",
+      "spaceType": "PARTY",
+      "capacity": 20,
+      "location": "강남",
+      "pricePerHour": 30000,
+      "imageUrl": "https://..."
+    }
+  ],
+  "timestamp": "2026-02-27T10:00:00"
+}
+```
+
+`400 Bad Request` — 파싱 실패
+
+```json
+{
+  "success": false,
+  "message": "검색 조건을 추출할 수 없습니다. 다시 입력해주세요.",
+  "timestamp": "2026-02-27T10:00:00"
+}
+```
+
+`503 Service Unavailable` — AI 오류
+
+```json
+{
+  "success": false,
+  "message": "AI 서비스에 일시적인 문제가 발생했습니다.",
+  "timestamp": "2026-02-27T10:00:00"
+}
+```
 
 </details>
 
 <br>
 
-## ERD
+## 🗄 ERD
+
+![ERD](docs/erd.png)
+
+<details>
+<summary>ERD 텍스트</summary>
 
 ```
 ┌──────────────────┐       ┌──────────────────┐       ┌──────────────────┐
@@ -960,9 +1299,11 @@ Content-Type: application/json
 └──────────────────┘       status: CONFIRMED | CANCELLED
 ```
 
+</details>
+
 <br>
 
-## 설계 원칙
+## 📐 설계 원칙
 
 | 원칙 | 적용 |
 |------|------|
@@ -977,7 +1318,7 @@ Content-Type: application/json
 
 <br>
 
-## 테스트
+## 🧪 테스트
 
 ```bash
 cd backend
@@ -1050,7 +1391,7 @@ JUnit 5 + Mockito 기반 서비스 레이어 단위 테스트 **26개**
 
 <br>
 
-## 실행 방법
+## 🚀 실행 방법
 
 ### 사전 요구사항
 
@@ -1067,8 +1408,7 @@ JUnit 5 + Mockito 기반 서비스 레이어 단위 테스트 **26개**
 | `MYSQLPASSWORD` | DB 비밀번호 |
 | `JWT_SECRET` | JWT 서명 키 |
 | `GROQ_API_KEY` | Groq API 키 |
-| `MAIL_USERNAME` | 발송용 Gmail 주소 |
-| `MAIL_PASSWORD` | Gmail 앱 비밀번호 (16자리) |
+| `SENDGRID_API_KEY` | SendGrid API 키 |
 | `NEXT_PUBLIC_API_URL` | 백엔드 API URL (프론트엔드) |
 
 ### Backend
@@ -1090,7 +1430,7 @@ npm run dev
 
 <br>
 
-## 향후 계획
+## 📋 향후 계획
 
 - 관리자 공간 관리 페이지 (현재 API만 구현, 프론트엔드 관리자 페이지 미구현)
 - S3 이미지 업로드 적용 (현재 대표 이미지 URL 1개 → 다중 이미지 업로드/조회)
