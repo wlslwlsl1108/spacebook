@@ -4,22 +4,30 @@ import com.kjh.spacebook.domain.reservation.entity.Reservation;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.mail.SimpleMailMessage;
-import org.springframework.mail.javamail.JavaMailSender;
+import org.springframework.http.HttpEntity;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.MediaType;
 import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Service;
+import org.springframework.web.client.RestTemplate;
 
 import java.time.format.DateTimeFormatter;
+import java.util.List;
+import java.util.Map;
 
 @Slf4j
 @Service
 @RequiredArgsConstructor
 public class EmailService {
-    private final JavaMailSender mailSender;
+    private final RestTemplate restTemplate;
 
-    @Value("${spring.mail.username}")
+    @Value("${sendgrid.api-key}")
+    private String apiKey;
+
+    @Value("${sendgrid.from-email}")
     private String fromEmail;
 
+    private static final String SENDGRID_API_URL = "https://api.sendgrid.com/v3/mail/send";
     private static final DateTimeFormatter FORMATTER = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm");
 
     @Async
@@ -70,12 +78,27 @@ public class EmailService {
 
     private void send(String to, String subject, String body) {
         try {
-            SimpleMailMessage message = new SimpleMailMessage();
-            message.setFrom("SpaceBook <" + fromEmail + ">");
-            message.setTo(to);
-            message.setSubject(subject);
-            message.setText(body);
-            mailSender.send(message);
+            HttpHeaders headers = new HttpHeaders();
+            headers.setContentType(MediaType.APPLICATION_JSON);
+            headers.setBearerAuth(apiKey);
+
+            Map<String, Object> requestBody = Map.of(
+                    "personalizations", List.of(Map.of(
+                            "to", List.of(Map.of("email", to))
+                    )),
+                    "from", Map.of(
+                            "email", fromEmail,
+                            "name", "SpaceBook"
+                    ),
+                    "subject", subject,
+                    "content", List.of(Map.of(
+                            "type", "text/plain",
+                            "value", body
+                    ))
+            );
+
+            HttpEntity<Map<String, Object>> request = new HttpEntity<>(requestBody, headers);
+            restTemplate.postForEntity(SENDGRID_API_URL, request, String.class);
             log.info("이메일 발송 완료: {}", to);
         } catch (Exception e) {
             log.error("이메일 발송 실패: {}", to, e);

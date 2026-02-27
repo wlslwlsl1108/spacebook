@@ -8,18 +8,6 @@ spring:
     password: ${MYSQLPASSWORD}
     driver-class-name: com.mysql.cj.jdbc.Driver
 
-  mail:
-    host: smtp.gmail.com
-    port: 465
-    username: ${MAIL_USERNAME}
-    password: ${MAIL_PASSWORD}
-    properties:
-      mail:
-        smtp:
-          auth: true
-          ssl:
-            enable: true
-
   jpa:
     hibernate:
       ddl-auto: update
@@ -39,6 +27,10 @@ jwt:
 
 groq:
   api-key: ${GROQ_API_KEY}
+
+sendgrid:
+  api-key: ${SENDGRID_API_KEY}
+  from-email: lsa68803@naver.com
 
 springdoc:
   swagger-ui:
