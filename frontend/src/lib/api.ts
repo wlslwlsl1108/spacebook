@@ -91,8 +91,9 @@ export async function api<T>(
     headers,
   });
 
-  // 401이고 재발급 대상인 경우 → 토큰 재발급 시도
-  if (response.status === 401 && endpoint !== "/auth/reissue") {
+  // 401이고 재발급 대상인 경우 → 토큰 재발급 시도 (로그인/회원가입/재발급 요청은 제외)
+  const skipReissueEndpoints = ["/auth/login", "/auth/signup", "/auth/reissue"];
+  if (response.status === 401 && !skipReissueEndpoints.includes(endpoint)) {
     // 동시에 여러 요청이 401을 받아도 재발급은 1번만 실행
     if (!reissuePromise) {
       reissuePromise = tryReissue().finally(() => {
