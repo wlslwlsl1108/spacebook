@@ -1,6 +1,7 @@
 package com.kjh.spacebook.domain.reservation.service;
 
 import com.kjh.spacebook.common.exception.BusinessException;
+import com.kjh.spacebook.common.service.EmailService;
 import com.kjh.spacebook.domain.reservation.dto.request.CreateReservationRequest;
 import com.kjh.spacebook.domain.reservation.dto.response.ReservationListResponse;
 import com.kjh.spacebook.domain.reservation.dto.response.ReservationResponse;
@@ -35,6 +36,7 @@ public class ReservationService {
     private final ReservationRepository reservationRepository;
     private final SpaceRepository spaceRepository;
     private final UserRepository userRepository;
+    private final EmailService emailService;
 
     @Transactional
     public ReservationResponse createReservation(
@@ -89,6 +91,7 @@ public class ReservationService {
         );
 
         reservationRepository.save(reservation);
+        emailService.sendReservationConfirm(user.getEmail(), reservation);
 
         return ReservationResponse.from(reservation);
     }
@@ -147,5 +150,6 @@ public class ReservationService {
         }
 
         reservation.cancel();
+        emailService.sendReservationCancel(reservation.getUser().getEmail(), reservation);
     }
 }
