@@ -30,6 +30,7 @@ AI 기반 공간 예약 플랫폼
 | Validation | Bean Validation (Hibernate Validator) |
 | AI | Groq API (LLaMA 3.3 70B) |
 | API Docs | springdoc-openapi (Swagger UI) |
+| Email | Spring Boot Mail (Gmail SMTP) |
 | Test | JUnit 5 + Mockito |
 | Deploy | Railway (Docker) |
 
@@ -86,13 +87,14 @@ AI 기반 공간 예약 플랫폼
 │  │                       Service Layer                         │    │
 │  │  AuthService · SpaceService · ReservationService            │    │
 │  │  UserService · RecommendationService · GroqService          │    │
+│  │  EmailService (@Async)                                      │    │
 │  └───────┬──────────────────────────────────────┬──────────────┘    │
 │          │ 비즈니스 규칙 검증                       │                 │
 │          ▼                                       ▼                  │
-│  ┌────────────────────┐              ┌──────────────────────┐       │
-│  │  Repository Layer  │              │   Groq API (외부)    │       │
-│  │  (Spring Data JPA) │              │   LLaMA 3.3 70B      │       │
-│  └────────┬───────────┘              └──────────────────────┘       │
+│  ┌────────────────────┐    ┌──────────────────────┐  ┌───────────┐  │
+│  │  Repository Layer  │    │   Groq API (외부)    │  │Gmail SMTP │  │
+│  │  (Spring Data JPA) │    │   LLaMA 3.3 70B      │  │  (메일)   │  │
+│  └────────┬───────────┘    └──────────────────────┘  └───────────┘  │
 │           │                                                         │
 └───────────┼─────────────────────────────────────────────────────────┘
             │
@@ -117,6 +119,7 @@ spacebook/
 │       │   ├── config/               # Security, OpenAPI, RestTemplate, PasswordEncoder
 │       │   ├── exception/            # GlobalExceptionHandler, ErrorCode, BusinessException
 │       │   ├── response/             # ApiResponse 공통 응답 래퍼
+│       │   ├── service/              # EmailService (이메일 알림)
 │       │   └── security/jwt/         # JwtUtil, JwtAuthenticationFilter, JwtProperties
 │       └── domain/
 │           ├── auth/                 # 회원가입, 로그인, 로그아웃, 탈퇴, 토큰 재발급
@@ -165,6 +168,7 @@ spacebook/
 - 날짜별 예약된 시간대 조회 API → 프론트엔드에서 시각적 표시
 - 예약 취소 (시작 1일 전까지)
 - 총 가격 자동 계산 (시간 × 시간당 가격)
+- 예약 생성/취소 시 이메일 알림 발송 (`@Async` 비동기 처리)
 
 ### 4. AI 공간 추천
 
@@ -1063,6 +1067,8 @@ JUnit 5 + Mockito 기반 서비스 레이어 단위 테스트 **26개**
 | `MYSQLPASSWORD` | DB 비밀번호 |
 | `JWT_SECRET` | JWT 서명 키 |
 | `GROQ_API_KEY` | Groq API 키 |
+| `MAIL_USERNAME` | 발송용 Gmail 주소 |
+| `MAIL_PASSWORD` | Gmail 앱 비밀번호 (16자리) |
 | `NEXT_PUBLIC_API_URL` | 백엔드 API URL (프론트엔드) |
 
 ### Backend
@@ -1087,5 +1093,6 @@ npm run dev
 ## 향후 계획
 
 - 관리자 공간 관리 페이지 (현재 API만 구현, 프론트엔드 관리자 페이지 미구현)
-- 이메일 인증 기능
+- S3 이미지 업로드 적용 (현재 대표 이미지 URL 1개 → 다중 이미지 업로드/조회)
+- 공간 리뷰/별점 기능
 - 테스트 커버리지 확대 (컨트롤러 통합 테스트, 리포지토리 테스트)
