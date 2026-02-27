@@ -52,7 +52,7 @@ public class ReservationService {
             throw new BusinessException(ReservationErrorCode.RESERVATION_INVALID_TIME);
         }
 
-        if (request.startTime().isBefore(LocalDateTime.now().truncatedTo(ChronoUnit.HOURS))) {
+        if (request.startTime().isBefore(LocalDateTime.now().truncatedTo(ChronoUnit.HOURS).plusHours(1))) {
             throw new BusinessException(ReservationErrorCode.RESERVATION_PAST_TIME);
         }
 
