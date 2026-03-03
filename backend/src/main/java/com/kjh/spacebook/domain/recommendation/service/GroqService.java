@@ -3,6 +3,7 @@ package com.kjh.spacebook.domain.recommendation.service;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.kjh.spacebook.common.exception.BusinessException;
+import com.kjh.spacebook.domain.recommendation.dto.response.SearchCondition;
 import com.kjh.spacebook.domain.recommendation.exception.RecommendationErrorCode;
 import com.kjh.spacebook.domain.space.enums.SpaceType;
 import lombok.RequiredArgsConstructor;
@@ -118,9 +119,4 @@ public class GroqService {
         }
     }
 
-    public record SearchCondition(
-            String location,
-            Integer capacity,
-            SpaceType spaceType
-    ) {}
 }

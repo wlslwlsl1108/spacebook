@@ -2,6 +2,7 @@ package com.kjh.spacebook.domain.recommendation.service;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.kjh.spacebook.common.exception.BusinessException;
+import com.kjh.spacebook.domain.recommendation.dto.response.SearchCondition;
 import com.kjh.spacebook.domain.space.enums.SpaceType;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
@@ -51,7 +52,7 @@ class GroqServiceTest {
                 .willReturn(groqResponse);
 
         // when
-        GroqService.SearchCondition result = groqService.extractCondition("강남에서 3명 미팅");
+        SearchCondition result = groqService.extractCondition("강남에서 3명 미팅");
 
         // then
         assertThat(result.location()).isEqualTo("강남");
@@ -77,7 +78,7 @@ class GroqServiceTest {
                 .willReturn(groqResponse);
 
         // when
-        GroqService.SearchCondition result = groqService.extractCondition("혼자 공부할 곳");
+        SearchCondition result = groqService.extractCondition("혼자 공부할 곳");
 
         // then
         assertThat(result.location()).isNull();

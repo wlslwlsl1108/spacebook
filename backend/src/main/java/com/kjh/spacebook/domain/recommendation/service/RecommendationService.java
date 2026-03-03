@@ -1,5 +1,6 @@
 package com.kjh.spacebook.domain.recommendation.service;
 
+import com.kjh.spacebook.domain.recommendation.dto.response.SearchCondition;
 import com.kjh.spacebook.domain.space.dto.response.SpaceListResponse;
 import com.kjh.spacebook.domain.space.entity.Space;
 import com.kjh.spacebook.domain.space.repository.SpaceRepository;
@@ -17,7 +18,7 @@ public class RecommendationService {
     private final SpaceRepository spaceRepository;
 
     public List<SpaceListResponse> recommend(String query) {
-        GroqService.SearchCondition condition = groqService.extractCondition(query);
+        SearchCondition condition = groqService.extractCondition(query);
 
         List<Space> spaces = spaceRepository.searchByConditions(
                 condition.location(),
