@@ -1,5 +1,6 @@
 package com.kjh.spacebook.domain.recommendation.service;
 
+import com.kjh.spacebook.domain.recommendation.dto.response.SearchCondition;
 import com.kjh.spacebook.domain.space.entity.Space;
 import com.kjh.spacebook.domain.space.enums.SpaceType;
 import com.kjh.spacebook.domain.space.repository.SpaceRepository;
@@ -35,8 +36,8 @@ class RecommendationServiceTest {
     @DisplayName("AI 조건 추출 후 공간 검색 성공")
     void recommend_success() {
         // given
-        GroqService.SearchCondition condition =
-                new GroqService.SearchCondition("강남", 4, SpaceType.MEETING);
+        SearchCondition condition =
+                new SearchCondition("강남", 4, SpaceType.MEETING);
 
         given(groqService.extractCondition("강남에서 회의"))
                 .willReturn(condition);
